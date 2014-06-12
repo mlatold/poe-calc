@@ -45,8 +45,13 @@ var recalculate = function(nohash) {
 	$(".advanced").hide();
 	if($(".adv input:checked").length) {
 		$(".advanced").show();
+		$(".advanced").css("display", "block");
 	}
 	else {
+		$(".enl input").prop("checked", false);
+		$(".enh input").prop("checked", false);
+		$(".emp input").prop("checked", false);
+
 		$(".alh input").prop("checked", false);
 		$(".bma input").prop("checked", false);
 		$(".mul input").val("100");

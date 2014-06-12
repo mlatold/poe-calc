@@ -145,10 +145,12 @@ label input[type=number] {
   color: #fff;
   line-height: 25px;
   padding: 0 2px;
+  width: 60px;
 }
 label input[type=number].fr {
   margin-top: 3px;
   margin-right: 3px;
+  width: 90px;
 }
 #final {
   border: 0;

@@ -45,6 +45,7 @@
 .max{width:100%;}
 
 h1,h2,h3,h4,h5,h6 { color: #fff;}
+h3 { margin-top: 10px; }
 
 /* Bubbles */
 .bubble {
@@ -159,4 +160,13 @@ label input[type=number].fr {
   background-color: #2d6ca2 !important;
   background-image: linear-gradient(to bottom,#428bca 0,#2d6ca2 100%) !important;
   background-position: 0 -15px;
+}
+.advanced {
+  display: none;
+}
+input[type=text] {
+  background: none;
+  border: none;
+  color: #fff;
+  width: 80%;
 }

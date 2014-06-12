@@ -42,6 +42,15 @@ var recalculate = function(nohash) {
 		$(".mi2 input").prop("disabled", true);
 	}
 
+	$(".advanced").hide();
+	if($(".adv input:checked").length) {
+		$(".advanced").show();
+	}
+	else {
+		$(".alh input").prop("checked", false);
+		$(".bma input").prop("checked", false);
+		$(".mul input").val("100");
+	}
 
 	// Skill tree
 	var reduced_mana = ($(".rms input[type=number]").restricted_val() - 100) * -1;
@@ -62,7 +71,7 @@ var recalculate = function(nohash) {
 		$(".bmg .multi", this).html("x" + bm_gem_multi.toString() + "%");
 
 		// is blood magic on?
-		var blood_magic = ($(".bms input:checked").length || bm_gem_lvl) ? true : false;
+		var blood_magic = ($(".bms input:checked").length || $(".bma input:checked", this).length || bm_gem_lvl) ? true : false;
 
 		var other_multi = $(".mul input[type=number]", this).restricted_val();
 		other_multi += $(".enl input:checked", this).length ? 25 : 0;
@@ -79,6 +88,9 @@ var recalculate = function(nohash) {
 			additional_reduced_mana = 25;
 			blood_magic = true;
 		}
+
+		// Alpha's howl for snapshotting
+		additional_reduced_mana += $(".alh input:checked").length ? 8 : 0;
 
 		// clarity gem
 		var clarity_lvl = $(".cla input[type=number]", this).restricted_val();
@@ -155,9 +167,14 @@ var activate_aura_group = function(grp){
 		$("input[name=auras]").val($(".aura-grp").length);
 		recalculate();
 	});
+
+	$(".tog", grp).click(function(){
+		$(".collapsible", $(this).parents("section")).slideToggle(200);
+	});
 }
 
 $().ready(function(){
+	var hash = window.location.hash.substr(1);
 	$("#skills input").change(recalculate);
 	$("#skills input").keyup(recalculate);
 	aura_group = $("#aura_1").html();
@@ -166,13 +183,12 @@ $().ready(function(){
 	$("#add").click(function(){
 		var new_grp_id = $(".aura-grp").length + 1;
 		$(".aura-grp:last").after('<section id="aura_' + new_grp_id + '" class="row aura-grp">' + aura_group.replace(/\[1\]/g, "[" + new_grp_id + "]") + "</section>");
-		$(".aura-grp:last h3 span").html(new_grp_id.toString());
+		$(".aura-grp:last input[type=text]").val("Aura Group " + new_grp_id.toString());
 		$("input[name=auras]").val(new_grp_id);
 		activate_aura_group($(".aura-grp:last"));
 		recalculate();
 	});
 
-	var hash = window.location.hash.substr(1);
 	var map = {};
 
 	$.each(hash.split("&"), function () {
@@ -192,12 +208,17 @@ $().ready(function(){
 			$("#add").click();
 		}
 	}
+	else {
+		auras = 1;
+	}
 
 	$.each(map, function (n, v) {
+		$("[name='" + n + "'][type=text]").val(v.toString().replace(/\+/g, " "));
 		$("[name='" + n + "'][type=number]").val(parseInt(v));
 		if($("[name='" + n + "'][type=checkbox]").length) {
 			$("[name='" + n + "'][type=checkbox]").prop("checked", true);
 		}
 	});
-	recalculate(true)
+	console.log(auras <= 1)
+	recalculate((auras <= 1))
 });

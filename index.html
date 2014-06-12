@@ -16,151 +16,168 @@
 			<input type="hidden" name="auras" value="1">
 			<section id="aura_1" class="row aura-grp">
 				<h3>
-					Aura Group <span>1</span>
+					<input type="text" name="name[1]" value="Aura Group 1" />
+					<button type="button" class="btn btn-info btn-sm fr ml tog">Toggle</button>
 					<button type="button" class="btn btn-danger btn-sm fr del">Delete</button>
 				</h3>
-				<div class="col-sm-4">
-					<label class="ang" data-reserved="60">
-						<img src="img/aura/anger.png">
-						<img src="img/gem/anger.png">
-						<input type="checkbox" name="ang[1]" value="1"> Anger <span class="reserved">60%</span><div class="cr"></div>
-					</label>
+				<div class="cb"></div>
+				<div class="collapsible">
+					<div class="col-sm-4">
+						<label class="ang" data-reserved="60">
+							<img src="img/aura/anger.png">
+							<img src="img/gem/anger.png">
+							<input type="checkbox" name="ang[1]" value="1"> Anger <span class="reserved">60%</span><div class="cr"></div>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label class="cla">
+							<img src="img/aura/clarity.png">
+							<img src="img/gem/clarity.png">
+							<input type="number" data-default="0" min="0" max="30" maxlength="2" placeholder="lvl" name="cla[1]"> Clarity <span class="reserved-mana">0</span><div class="cr"></div>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label class="det" data-reserved="60">
+							<img src="img/aura/determination.png">
+							<img src="img/gem/determination.png">
+							<input type="checkbox" name="det[1]" value="1"> Determination <span class="reserved">60%</span><div class="cr"></div>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label class="dis" data-reserved="60">
+							<img src="img/aura/discipline.png">
+							<img src="img/gem/discipline.png">
+							<input type="checkbox" name="dis[1]" value="1"> Discipline <span class="reserved">60%</span><div class="cr"></div>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label class="gra" data-reserved="60">
+							<img src="img/aura/grace.png">
+							<img src="img/gem/grace.png">
+							<input type="checkbox" name="gra[1]" value="1"> Grace <span class="reserved">60%</span><div class="cr"></div>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label class="has" data-reserved="60">
+							<img src="img/aura/haste.png">
+							<img src="img/gem/haste.png">
+							<input type="checkbox" name="has[1]" value="1"> Haste <span class="reserved">60%</span><div class="cr"></div>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label class="hat" data-reserved="60">
+							<img src="img/aura/hatred.png">
+							<img src="img/gem/hatred.png">
+							<input type="checkbox" name="hat[1]" value="1"> Hatred <span class="reserved">60%</span><div class="cr"></div>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label class="poe" data-reserved="40">
+							<img src="img/aura/purity_of_elements.png">
+							<img src="img/gem/purity_of_elements.png">
+							<input type="checkbox" name="poe[1]" value="1"> Purity of Elements <span class="reserved">40%</span><div class="cr"></div>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label class="pof" data-reserved="40">
+							<img src="img/aura/purity_of_fire.png">
+							<img src="img/gem/purity_of_fire.png">
+							<input type="checkbox" name="pof[1]" value="1"> Purity of Fire <span class="reserved">40%</span><div class="cr"></div>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label class="poi" data-reserved="40">
+							<img src="img/aura/purity_of_ice.png">
+							<img src="img/gem/purity_of_ice.png">
+							<input type="checkbox" name="poi[1]" value="1"> Purity of Ice <span class="reserved">40%</span><div class="cr"></div>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label class="pol" data-reserved="40">
+							<img src="img/aura/purity_of_lightning.png">
+							<img src="img/gem/purity_of_lightning.png">
+							<input type="checkbox" name="pol[1]" value="1"> Purity of Lightning <span class="reserved">40%</span><div class="cr"></div>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label class="tem" data-reserved="25">
+							<img src="img/aura/tempest_shield.png">
+							<img src="img/gem/tempest_shield.png">
+							<input type="checkbox" name="tem[1]" value="1"> Tempest Shield <span class="reserved">25%</span><div class="cr"></div>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label class="vit" data-reserved="40">
+							<img src="img/aura/vitality.png">
+							<img src="img/gem/vitality.png">
+							<input type="checkbox" name="vit[1]" value="1"> Vitality <span class="reserved">40%</span><div class="cr"></div>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label class="wra" data-reserved="60">
+							<img src="img/aura/wrath.png">
+							<img src="img/gem/wrath.png">
+							<input type="checkbox" name="wra[1]" value="1"> Wrath <span class="reserved">60%</span><div class="cr"></div>
+						</label>
+					</div>
+					<div class="cb pt"></div>
+					<div class="col-sm-4">
+						<label class="bmg">
+							<img src="img/blood_magic.png">
+							<input type="number" data-default="0" min="0" max="21" maxlength="2" placeholder="lvl" name="bmg[1]"> Blood Magic Gem <span class="multi">x100%</span><div class="cr"></div>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label class="rmg">
+							<img src="img/reduced_mana.png">
+							<input type="number" data-default="0" min="0" max="30" maxlength="2" placeholder="lvl" name="rmg[1]"> Reduced Mana <span class="multi">x100%</span><div class="cr"></div>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label class="prg">
+							<img src="img/prism_guardian.png">
+							<input type="checkbox" name="prg[1]" value="1"> Prism Guardian <span class="multi">x75%</span><div class="cr"></div>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label class="enl">
+							<img src="img/enlighten.png">
+							<input type="checkbox" name="enl[1]" value="1"> Enlighten <span class="multi">x125%</span><div class="cr"></div>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label class="enh">
+							<img src="img/enhance.png">
+							<input type="checkbox" name="enh[1]" value="1"> Enhance <span class="multi">x125%</span><div class="cr"></div>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label class="emp">
+							<img src="img/empower.png">
+							<input type="checkbox" name="emp[1]" value="1"> Empower <span class="multi">x125%</span><div class="cr"></div>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label class="mul advanced">
+							<img src="img/multi.png">
+							<abbr title="Apply this when linking auras to various support gems">Mana Multiplier %</abbr> <input type="number" class="fr" min="0" max="1000" data-default="100" value="100" name="mul[1]"><div class="cr"></div>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label class="bma advanced">
+							<img src="img/blood_magic_skill.png">
+							<input type="checkbox" name="bma[1]" value="1"> <abbr title="Intended for calculations when snapshotting">Blood Magic</abbr> <span class="multi">x100%</span><div class="cr"></div>
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label class="alh advanced">
+							<img src="img/alphas_howl.png">
+							<input type="checkbox" name="alh" value="1">
+							<abbr title="Intended for calculations when snapshotting">Alpha's Howl</abbr>
+						</label>
+					</div>
+					<div class="cb pt"></div>
 				</div>
-				<div class="col-sm-4">
-					<label class="cla">
-						<img src="img/aura/clarity.png">
-						<img src="img/gem/clarity.png">
-						<input type="number" data-default="0" min="0" max="30" maxlength="2" placeholder="lvl" name="cla[1]"> Clarity <span class="reserved-mana">0</span><div class="cr"></div>
-					</label>
-				</div>
-				<div class="col-sm-4">
-					<label class="det" data-reserved="60">
-						<img src="img/aura/determination.png">
-						<img src="img/gem/determination.png">
-						<input type="checkbox" name="det[1]" value="1"> Determination <span class="reserved">60%</span><div class="cr"></div>
-					</label>
-				</div>
-				<div class="col-sm-4">
-					<label class="dis" data-reserved="60">
-						<img src="img/aura/discipline.png">
-						<img src="img/gem/discipline.png">
-						<input type="checkbox" name="dis[1]" value="1"> Discipline <span class="reserved">60%</span><div class="cr"></div>
-					</label>
-				</div>
-				<div class="col-sm-4">
-					<label class="gra" data-reserved="60">
-						<img src="img/aura/grace.png">
-						<img src="img/gem/grace.png">
-						<input type="checkbox" name="gra[1]" value="1"> Grace <span class="reserved">60%</span><div class="cr"></div>
-					</label>
-				</div>
-				<div class="col-sm-4">
-					<label class="has" data-reserved="60">
-						<img src="img/aura/haste.png">
-						<img src="img/gem/haste.png">
-						<input type="checkbox" name="has[1]" value="1"> Haste <span class="reserved">60%</span><div class="cr"></div>
-					</label>
-				</div>
-				<div class="col-sm-4">
-					<label class="hat" data-reserved="60">
-						<img src="img/aura/hatred.png">
-						<img src="img/gem/hatred.png">
-						<input type="checkbox" name="hat[1]" value="1"> Hatred <span class="reserved">60%</span><div class="cr"></div>
-					</label>
-				</div>
-				<div class="col-sm-4">
-					<label class="poe" data-reserved="40">
-						<img src="img/aura/purity_of_elements.png">
-						<img src="img/gem/purity_of_elements.png">
-						<input type="checkbox" name="poe[1]" value="1"> Purity of Elements <span class="reserved">40%</span><div class="cr"></div>
-					</label>
-				</div>
-				<div class="col-sm-4">
-					<label class="pof" data-reserved="40">
-						<img src="img/aura/purity_of_fire.png">
-						<img src="img/gem/purity_of_fire.png">
-						<input type="checkbox" name="pof[1]" value="1"> Purity of Fire <span class="reserved">40%</span><div class="cr"></div>
-					</label>
-				</div>
-				<div class="col-sm-4">
-					<label class="poi" data-reserved="40">
-						<img src="img/aura/purity_of_ice.png">
-						<img src="img/gem/purity_of_ice.png">
-						<input type="checkbox" name="poi[1]" value="1"> Purity of Ice <span class="reserved">40%</span><div class="cr"></div>
-					</label>
-				</div>
-				<div class="col-sm-4">
-					<label class="pol" data-reserved="40">
-						<img src="img/aura/purity_of_lightning.png">
-						<img src="img/gem/purity_of_lightning.png">
-						<input type="checkbox" name="pol[1]" value="1"> Purity of Lightning <span class="reserved">40%</span><div class="cr"></div>
-					</label>
-				</div>
-				<div class="col-sm-4">
-					<label class="tem" data-reserved="25">
-						<img src="img/aura/tempest_shield.png">
-						<img src="img/gem/tempest_shield.png">
-						<input type="checkbox" name="tem[1]" value="1"> Tempest Shield <span class="reserved">25%</span><div class="cr"></div>
-					</label>
-				</div>
-				<div class="col-sm-4">
-					<label class="vit" data-reserved="40">
-						<img src="img/aura/vitality.png">
-						<img src="img/gem/vitality.png">
-						<input type="checkbox" name="vit[1]" value="1"> Vitality <span class="reserved">40%</span><div class="cr"></div>
-					</label>
-				</div>
-				<div class="col-sm-4">
-					<label class="wra" data-reserved="60">
-						<img src="img/aura/wrath.png">
-						<img src="img/gem/wrath.png">
-						<input type="checkbox" name="wra[1]" value="1"> Wrath <span class="reserved">60%</span><div class="cr"></div>
-					</label>
-				</div>
-				<div class="cb pt"></div>
-				<div class="col-sm-4">
-					<label class="bmg">
-						<img src="img/blood_magic.png">
-						<input type="number" data-default="0" min="0" max="21" maxlength="2" placeholder="lvl" name="bmg[1]"> Blood Magic Gem <span class="multi">x100%</span><div class="cr"></div>
-					</label>
-				</div>
-				<div class="col-sm-4">
-					<label class="rmg">
-						<img src="img/reduced_mana.png">
-						<input type="number" data-default="0" min="0" max="30" maxlength="2" placeholder="lvl" name="rmg[1]"> Reduced Mana <span class="multi">x100%</span><div class="cr"></div>
-					</label>
-				</div>
-				<div class="col-sm-4">
-					<label class="mul">
-						<img src="img/multi.png">
-						<abbr title="Meant for advanced users linking auras to various support gems">Mana Multiplier %</abbr> <input type="number" class="fr" min="0" max="1000" data-default="100" value="100" name="mul[1]"><div class="cr"></div>
-					</label>
-				</div>
-				<div class="col-sm-4">
-					<label class="enl">
-						<img src="img/enlighten.png">
-						<input type="checkbox" name="enl[1]" value="1"> Enlighten <span class="multi">x125%</span><div class="cr"></div>
-					</label>
-				</div>
-				<div class="col-sm-4">
-					<label class="enh">
-						<img src="img/enhance.png">
-						<input type="checkbox" name="enh[1]" value="1"> Enhance <span class="multi">x125%</span><div class="cr"></div>
-					</label>
-				</div>
-				<div class="col-sm-4">
-					<label class="emp">
-						<img src="img/empower.png">
-						<input type="checkbox" name="emp[1]" value="1"> Empower <span class="multi">x125%</span><div class="cr"></div>
-					</label>
-				</div>
-				<div class="col-sm-4">
-					<label class="prg">
-						<img src="img/prism_guardian.png">
-						<input type="checkbox" name="prg[1]" value="1"> Prism Guardian <span class="multi">x75%</span><div class="cr"></div>
-					</label>
-				</div>
-				<div class="cb pt"></div>
 			</section>
 			<button type="button" class="btn btn-primary fr" id="add">Add new aura group</button>
 			<div class="cb pt"></div>
@@ -222,6 +239,13 @@
 						Total Mana: <input type="number" data-default="1000" class="fr" value="1000" min="0" max="100000" value="1000" name="mana"><div class="cr"></div>
 					</label>
 				</div>
+				<div class="col-sm-4">
+					<label class="adv">
+						<img src="img/advanced.png">
+						<input type="checkbox" name="adv" value="1">
+						Show Advanced Options
+					</label>
+				</div>
 				<div class="cb pt"></div>
 			</section>
 			<section id="final" class="row">
@@ -235,12 +259,11 @@
 					 &bullet; <a rel="external" href="https://github.com/mikelat/poe-calc">github repo</a>
 					<br /><br />
 					thanks to <a rel="external" href="http://www.pathofexile.com/account/view-profile/vgpat">vgpat</a> for testing and help
-
 				</div>
 			</section>
 		</form>
 	</div>
 	<script src="js/jquery-2.1.1.min.js"></script>
-	<script src="js/poe.js?4"></script>
+	<script src="js/poe.js?8"></script>
 </body>
 </html>

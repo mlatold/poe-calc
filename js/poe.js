@@ -161,7 +161,7 @@ var activate_aura_group = function(grp){
 	$("input", grp).keyup(recalculate);
 	$(".del", grp).click(function(){
 		var section = $(this).parents("section");
-		if(confirm("Are you sure you want to delete Aura Group " + $("h3 span", section).html() + "?")) {
+		if(confirm("Are you sure you want to delete: \"" + $("h3 input[type=text]", section).val() + "\"?")) {
 			section.remove();
 		}
 		$("input[name=auras]").val($(".aura-grp").length);

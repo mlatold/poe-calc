@@ -100,7 +100,7 @@ var recalculate = function(nohash) {
 		}
 
 		// Alpha's howl for snapshotting
-		additional_reduced_mana += $(".alh input:checked").length ? 8 : 0;
+		additional_reduced_mana += $(".alh input:checked", this).length ? 8 : 0;
 
 		/* Note: The calculation is a bit of a mess but it's from here:
 			http://www.pathofexile.com/forum/view-thread/567561/page/3

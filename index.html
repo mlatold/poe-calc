@@ -97,6 +97,13 @@
 					</label>
 				</div>
 				<div class="col-sm-4">
+					<label class="tem" data-reserved="25">
+						<img src="img/aura/tempest_shield.png">
+						<img src="img/gem/tempest_shield.png">
+						<input type="checkbox" name="tem[1]" value="1"> Tempest Shield <span class="reserved">25%</span><div class="cr"></div>
+					</label>
+				</div>
+				<div class="col-sm-4">
 					<label class="vit" data-reserved="40">
 						<img src="img/aura/vitality.png">
 						<img src="img/gem/vitality.png">
@@ -124,11 +131,35 @@
 					</label>
 				</div>
 				<div class="col-sm-4">
+					<label class="mul">
+						<img src="img/multi.png">
+						<abbr title="Meant for advanced users linking auras to various support gems">Mana Multiplier %</abbr> <input type="number" class="fr" min="0" max="1000" value="100" name="mul[1]"><div class="cr"></div>
+					</label>
+				</div>
+				<div class="col-sm-4">
+					<label class="enl">
+						<img src="img/enlighten.png">
+						<input type="checkbox" name="enl[1]" value="1"> Enlighten <span class="multi">x125%</span><div class="cr"></div>
+					</label>
+				</div>
+				<div class="col-sm-4">
+					<label class="enh">
+						<img src="img/enhance.png">
+						<input type="checkbox" name="enh[1]" value="1"> Enhance <span class="multi">x125%</span><div class="cr"></div>
+					</label>
+				</div>
+				<div class="col-sm-4">
+					<label class="emp">
+						<img src="img/empower.png">
+						<input type="checkbox" name="emp[1]" value="1"> Empower <span class="multi">x125%</span><div class="cr"></div>
+					</label>
+				</div>
+				<div class="col-sm-4">
 					<label class="prg">
 						<img src="img/prism_guardian.png">
 						<input type="checkbox" name="prg[1]" value="1"> Prism Guardian <span class="multi">x75%</span><div class="cr"></div>
 					</label>
-					</div>
+				</div>
 				<div class="cb pt"></div>
 			</section>
 			<button type="button" class="btn btn-primary fr" id="add">Add new aura group</button>
@@ -203,6 +234,6 @@
 		</form>
 	</div>
 	<script src="js/jquery-2.1.1.min.js"></script>
-	<script src="js/poe.js"></script>
+	<script src="js/poe.js?2"></script>
 </body>
 </html>

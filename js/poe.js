@@ -54,6 +54,11 @@ var recalculate = function(nohash) {
 		// is blood magic on?
 		var blood_magic = ($(".bms input:checked").length || bm_gem_lvl) ? true : false;
 
+		var other_multi = $(".mul input[type=number]", this).restricted_val();
+		other_multi += $(".enl input:checked", this).length ? 25 : 0;
+		other_multi += $(".enh input:checked", this).length ? 25 : 0;
+		other_multi += $(".emp input:checked", this).length ? 25 : 0;
+
 		// reduced mana gem
 		var rm_gem_lvl = $(".rmg input[type=number]", this).restricted_val();
 		var rm_gem_multi = rm_gem_lvl == 0 ? 100 : 91 - rm_gem_lvl;
@@ -67,13 +72,13 @@ var recalculate = function(nohash) {
 
 		// clarity gem
 		var clarity_lvl = $(".cla input[type=number]", this).restricted_val();
-		var clarity_mana = clarity_lvl == 0 ? 0 : Math.ceil(Math.floor((40 + (clarity_lvl * 20)) * (rm_gem_multi / 100) * (bm_gem_multi / 100)) * ((reduced_mana - additional_reduced_mana) / 100) * mortal_conv);
+		var clarity_mana = clarity_lvl == 0 ? 0 : Math.ceil(Math.floor((40 + (clarity_lvl * 20)) * (rm_gem_multi / 100) * (bm_gem_multi / 100) * (other_multi / 100)) * ((reduced_mana - additional_reduced_mana) / 100) * mortal_conv);
 		flat[+ blood_magic] += clarity_mana;
 		$(".cla .reserved-mana", this).html(clarity_mana.toString());
 
 		// individual % reserved auras
 		$("*[data-reserved]", this).each(function(){
-			var reserved_mana = Math.ceil(Math.floor($(this).data("reserved") * (rm_gem_multi / 100) * (bm_gem_multi / 100)) * ((reduced_mana - additional_reduced_mana) / 100) * mortal_conv);
+			var reserved_mana = Math.ceil(Math.floor($(this).data("reserved") * (rm_gem_multi / 100) * (bm_gem_multi / 100) * (other_multi / 100)) * ((reduced_mana - additional_reduced_mana) / 100) * mortal_conv);
 			if($("input:checked", this).length) {
 				perc[+ blood_magic] += reserved_mana;
 			}

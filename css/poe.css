@@ -176,3 +176,6 @@ input[type=text] {
   background-color: #b26a04 !important;
   background-image: -webkit-linear-gradient(#804d03, #9e5f04 40%, #b26a04) !important;
 }
+.selected {
+  text-decoration:line-through;
+}

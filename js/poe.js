@@ -177,6 +177,15 @@ var recalculate = function(nohash) {
 	});
 	$("input[type=checkbox]:checked").parents("label").addClass("edited");
 
+	// adds "selected" class so people know they've already selected something
+	$("label.selected").removeClass("selected");
+	$("*[data-reserved] input:checked").each(function(){
+		var name = $(this).attr("name").replace(/\[[0-9]*\]/, "");
+		$("label." + name + ":not(.edited)").addClass("selected");
+	});
+	if($(".cla.edited").length) {
+		$(".cla:not(.edited)").addClass("selected");
+	}
 }
 
 /* Activates a new aura group for functionality */

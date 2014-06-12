@@ -115,8 +115,8 @@ var recalculate = function(nohash) {
 	var life_r = Math.round(life * (perc[1] / 100)) + flat[1];
 	var mana_r = Math.round(mana * (perc[0] / 100)) + flat[0];
 
-	var life_rp = Math.round((life_r / life) * 100);
-	var mana_rp = Math.round((mana_r / mana) * 100);
+	var life_rp = Math.floor((life_r / life) * 100);
+	var mana_rp = Math.floor((mana_r / mana) * 100);
 
 	$("#hp, #mana").removeClass("error");
 	if((life - life_r) <= 0) {

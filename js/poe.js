@@ -219,6 +219,5 @@ $().ready(function(){
 			$("[name='" + n + "'][type=checkbox]").prop("checked", true);
 		}
 	});
-	console.log(auras <= 1)
 	recalculate((auras <= 1))
 });

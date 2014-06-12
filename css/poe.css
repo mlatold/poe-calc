@@ -155,3 +155,8 @@ label input[type=number].fr {
 #aura_1 .del {
   display: none;
 }
+.btn-primary:hover, .btn-primary:focus {
+  background-color: #2d6ca2 !important;
+  background-image: linear-gradient(to bottom,#428bca 0,#2d6ca2 100%) !important;
+  background-position: 0 -15px;
+}

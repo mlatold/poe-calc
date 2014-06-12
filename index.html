@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/bootstrap-theme.min.css" rel="stylesheet">
+	<link href="css/poe.css" rel="stylesheet">
+	<title>Path of Exile Aura Calculator</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	<div class="container">
+		<h1>Path of Exile Aura Calculator</h1>
+		<form id="p" action="#" onsubmit="return false">
+			<input type="hidden" name="auras" value="1">
+			<section id="aura_1" class="row aura-grp">
+				<h3>
+					Aura Group <span>1</span>
+					<button type="button" class="btn btn-danger btn-sm fr del">Delete</button>
+				</h3>
+				<div class="col-sm-4">
+					<label class="ang" data-reserved="60">
+						<img src="img/aura/anger.png">
+						<img src="img/gem/anger.png">
+						<input type="checkbox" name="ang[1]" value="1"> Anger <span class="reserved">60%</span><div class="cr"></div>
+					</label>
+				</div>
+				<div class="col-sm-4">
+					<label class="cla">
+						<img src="img/aura/clarity.png">
+						<img src="img/gem/clarity.png">
+						<input type="number" min="0" max="30" maxlength="2" placeholder="lvl" name="cla[1]"> Clarity <span class="reserved-mana">0</span><div class="cr"></div>
+					</label>
+				</div>
+				<div class="col-sm-4">
+					<label class="det" data-reserved="60">
+						<img src="img/aura/determination.png">
+						<img src="img/gem/determination.png">
+						<input type="checkbox" name="det[1]" value="1"> Determination <span class="reserved">60%</span><div class="cr"></div>
+					</label>
+				</div>
+				<div class="col-sm-4">
+					<label class="dis" data-reserved="60">
+						<img src="img/aura/discipline.png">
+						<img src="img/gem/discipline.png">
+						<input type="checkbox" name="dis[1]" value="1"> Discipline <span class="reserved">60%</span><div class="cr"></div>
+					</label>
+				</div>
+				<div class="col-sm-4">
+					<label class="gra" data-reserved="60">
+						<img src="img/aura/grace.png">
+						<img src="img/gem/grace.png">
+						<input type="checkbox" name="gra[1]" value="1"> Grace <span class="reserved">60%</span><div class="cr"></div>
+					</label>
+				</div>
+				<div class="col-sm-4">
+					<label class="has" data-reserved="60">
+						<img src="img/aura/haste.png">
+						<img src="img/gem/haste.png">
+						<input type="checkbox" name="has[1]" value="1"> Haste <span class="reserved">60%</span><div class="cr"></div>
+					</label>
+				</div>
+				<div class="col-sm-4">
+					<label class="hat" data-reserved="60">
+						<img src="img/aura/hatred.png">
+						<img src="img/gem/hatred.png">
+						<input type="checkbox" name="hat[1]" value="1"> Hatred <span class="reserved">60%</span><div class="cr"></div>
+					</label>
+				</div>
+				<div class="col-sm-4">
+					<label class="poe" data-reserved="40">
+						<img src="img/aura/purity_of_elements.png">
+						<img src="img/gem/purity_of_elements.png">
+						<input type="checkbox" name="poe[1]" value="1"> Purity of Elements <span class="reserved">40%</span><div class="cr"></div>
+					</label>
+				</div>
+				<div class="col-sm-4">
+					<label class="pof" data-reserved="40">
+						<img src="img/aura/purity_of_fire.png">
+						<img src="img/gem/purity_of_fire.png">
+						<input type="checkbox" name="pof[1]" value="1"> Purity of Fire <span class="reserved">40%</span><div class="cr"></div>
+					</label>
+				</div>
+				<div class="col-sm-4">
+					<label class="poi" data-reserved="40">
+						<img src="img/aura/purity_of_ice.png">
+						<img src="img/gem/purity_of_ice.png">
+						<input type="checkbox" name="poi[1]" value="1"> Purity of Ice <span class="reserved">40%</span><div class="cr"></div>
+					</label>
+				</div>
+				<div class="col-sm-4">
+					<label class="pol" data-reserved="40">
+						<img src="img/aura/purity_of_lightning.png">
+						<img src="img/gem/purity_of_lightning.png">
+						<input type="checkbox" name="pol[1]" value="1"> Purity of Lightning <span class="reserved">40%</span><div class="cr"></div>
+					</label>
+				</div>
+				<div class="col-sm-4">
+					<label class="vit" data-reserved="40">
+						<img src="img/aura/vitality.png">
+						<img src="img/gem/vitality.png">
+						<input type="checkbox" name="vit[1]" value="1"> Vitality <span class="reserved">40%</span><div class="cr"></div>
+					</label>
+				</div>
+				<div class="col-sm-4">
+					<label class="wra" data-reserved="60">
+						<img src="img/aura/wrath.png">
+						<img src="img/gem/wrath.png">
+						<input type="checkbox" name="wra[1]" value="1"> Wrath <span class="reserved">60%</span><div class="cr"></div>
+					</label>
+				</div>
+				<div class="cb pt"></div>
+				<div class="col-sm-4">
+					<label class="bmg">
+						<img src="img/blood_magic.png">
+						<input type="number" min="0" max="21" maxlength="2" placeholder="lvl" name="bmg[1]"> Blood Magic Gem <span class="multi">x100%</span><div class="cr"></div>
+					</label>
+				</div>
+				<div class="col-sm-4">
+					<label class="rmg">
+						<img src="img/reduced_mana.png">
+						<input type="number" min="0" max="30" maxlength="2" placeholder="lvl" name="rmg[1]"> Reduced Mana <span class="multi">x100%</span><div class="cr"></div>
+					</label>
+				</div>
+				<div class="col-sm-4">
+					<label class="prg">
+						<img src="img/prism_guardian.png">
+						<input type="checkbox" name="prg[1]" value="1"> Prism Guardian <span class="multi">x75%</span><div class="cr"></div>
+					</label>
+					</div>
+				<div class="cb pt"></div>
+			</section>
+			<button type="button" class="btn btn-primary fr" id="add">Add new aura group</button>
+			<div class="cb pt"></div>
+			<section id="skills" class="row">
+				<h3>Skills, Items and Options</h3>
+				<div class="col-sm-4">
+					<label class="rms">
+						<img src="img/reduced_mana_skill.png">
+						Reduced Mana %:
+						<input type="number" class="fr" min="0" max="99" value="0" name="rms">
+					</label>
+				</div>
+				<div class="col-sm-4">
+					<label class="bms">
+						<img src="img/blood_magic_skill.png">
+						<input type="checkbox" name="bms" value="1">
+						Blood Magic
+					</label>
+				</div>
+				<div class="col-sm-4">
+					<label class="mcs disabled">
+						<img src="img/mortal_conviction_skill.png">
+						<input type="checkbox" name="mcs" value="1" disabled="disabled">
+						Mortal Conviction
+					</label>
+				</div>
+				<div class="cb pt"></div>
+				<div class="col-sm-4">
+					<label class="alp">
+						<img src="img/alphas_howl.png">
+						<input type="checkbox" name="alp" value="1">
+						Alpha's Howl
+					</label>
+				</div>
+				<div class="col-sm-4">
+					<label class="mid">
+						<img src="img/midnight_bargain.png">
+						<input type="checkbox" name="mid" value="1">
+						Midnight Bargin
+					</label>
+				</div>
+				<div class="cb pt"></div>
+				<div class="col-sm-4">
+					<label class="total_hp">
+						<img src="img/life.png">
+						Total Health: <input type="number" class="fr" value="1000" min="0" max="100000" value="1000" name="life">
+					</label>
+				</div>
+				<div class="col-sm-4">
+					<label class="total_mana">
+						<img src="img/mana.png">
+						Total Mana: <input type="number" class="fr" value="1000" min="0" max="100000" value="1000" name="mana">
+					</label>
+				</div>
+				<div class="cb pt"></div>
+			</section>
+			<section id="final" class="row">
+				<div class="bubble" id="hp">Reserved: <span class="reserved">0</span>%<br />Life: <span class="total">1000/1000</span><div></div></div>
+				<div class="bubble" id="mana">Reserved: <span class="reserved">0</span>%<br />Mana: <span class="total">1000/1000</span><div></div></div>
+				<div id="footer">
+					created by <a rel="external" href="http://www.mikelat.com">mikelat</a><br />
+					<a rel="external" href="http://www.mikelat.com/contact">contact me</a>
+					 &bullet; <a rel="external" href="https://twitter.com/mikelatLP">tweeter</a>
+					 &bullet; <a rel="external" href="http://www.pathofexile.com/account/view-profile/mikelat">my poe profile</a>
+					<br /><br />
+					thanks to <a rel="external" href="http://www.pathofexile.com/account/view-profile/vgpat">vgpat</a> for testing and help
+
+				</div>
+			</section>
+		</form>
+	</div>
+	<script src="js/jquery-2.1.1.min.js"></script>
+	<script src="js/poe.js"></script>
+</body>
+</html>

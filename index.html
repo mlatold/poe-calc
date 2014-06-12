@@ -180,13 +180,14 @@
 				</div>
 			</section>
 			<button type="button" class="btn btn-primary fr" id="add">Add new aura group</button>
+			<button type="button" class="btn btn-warning fr mr" id="reset">Reset</button>
 			<div class="cb pt"></div>
 			<section id="skills" class="row">
 				<h3>Skills, Items and Options</h3>
 				<div class="col-sm-4">
 					<label class="rms">
 						<img src="img/reduced_mana_skill.png">
-						Reduced Mana %:
+						<abbr title="The ingame maximum from tree is currently 46%">Reduced Mana %:</abbr>
 						<input type="number" data-default="0" class="fr" min="0" max="99" value="0" name="rms"><div class="cr"></div>
 					</label>
 				</div>
@@ -216,14 +217,14 @@
 					<label class="mid">
 						<img src="img/midnight_bargain.png">
 						<input type="checkbox" name="mid" value="1">
-						Midnight Bargin <span class="multi">30%</span><div class="cr"></div>
+						Midnight Bargain <span class="multi">30%</span><div class="cr"></div>
 					</label>
 				</div>
 				<div class="col-sm-4">
 					<label class="mi2 disabled">
 						<img src="img/midnight_bargain.png">
 						<input type="checkbox" name="mi2" value="1" disabled="disabled">
-						Midnight Bargin x2 <span class="multi">30%</span><div class="cr"></div>
+						Midnight Bargain x2 <span class="multi">30%</span><div class="cr"></div>
 					</label>
 				</div>
 				<div class="cb pt"></div>
@@ -259,11 +260,13 @@
 					 &bullet; <a rel="external" href="https://github.com/mikelat/poe-calc">github repo</a>
 					<br /><br />
 					thanks to <a rel="external" href="http://www.pathofexile.com/account/view-profile/vgpat">vgpat</a> for testing and help
+					<br /><br />
+					path of exile images and assets are owned by <a href="http://www.grindinggear.com/" rel="external">grinding gear games</a>.
 				</div>
 			</section>
 		</form>
 	</div>
 	<script src="js/jquery-2.1.1.min.js"></script>
-	<script src="js/poe.js?10"></script>
+	<script src="js/poe.js?11"></script>
 </body>
 </html>

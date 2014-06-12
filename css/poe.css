@@ -172,3 +172,7 @@ input[type=text] {
   color: #fff;
   width: 80%;
 }
+.btn-warning:hover, .btn-warning:focus {
+  background-color: #b26a04 !important;
+  background-image: -webkit-linear-gradient(#804d03, #9e5f04 40%, #b26a04) !important;
+}

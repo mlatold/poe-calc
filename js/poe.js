@@ -1,5 +1,4 @@
-var aura_group = "";
-
+/* This restricts fetched input fields to their min/max attributes */
 $.fn.restricted_val = function(){
 	var obj = $(this);
 	var val = parseInt(obj.val());
@@ -21,11 +20,13 @@ $.fn.restricted_val = function(){
 	return val;
 }
 
+/* This recalculates everything on the page all in one go */
 var recalculate = function(nohash) {
+	// index 0 is mana, 1 is life
 	var flat = [0, 0];
 	var perc = [0, 0];
 
-	// Blood magic skill
+	// Blood magic convocation skill only allowed if blood magic is checked
 	$(".mcs").removeClass("disabled");
 	$(".mcs input").prop("disabled", false);
 	if(!$("input[name=bms]:checked").length) {
@@ -33,7 +34,7 @@ var recalculate = function(nohash) {
 		$(".mcs input").prop("checked", false);
 		$(".mcs input").prop("disabled", true);
 	}
-	// Midnight Bargin 2
+	// Midnight Bargain x2 (if midnight bargain 1 is checked)
 	$(".mi2").removeClass("disabled");
 	$(".mi2 input").prop("disabled", false);
 	if(!$("input[name=mid]:checked").length) {
@@ -42,6 +43,7 @@ var recalculate = function(nohash) {
 		$(".mi2 input").prop("disabled", true);
 	}
 
+	// setting advanced settings back to default
 	$(".advanced").hide();
 	if($(".adv input:checked").length) {
 		$(".advanced").show();
@@ -64,10 +66,12 @@ var recalculate = function(nohash) {
 	// Alpha's howl
 	reduced_mana -= $(".alp input:checked").length ? 8 : 0;
 
-	// Midnight Bargin
+	// Midnight Bargain
 	perc[1] += $(".mid input:checked").length ? 30 : 0;
 	perc[1] += $(".mi2 input:checked").length ? 30 : 0;
 
+	/* Aura groups are meant to be as "links" so users can combine different variables applicable only to
+		specific auras, so a lot of math has to be done seperately here */
 	$(".aura-grp").each(function() {
 		// blood magic gem
 		var bm_gem_multipliers = [2.45, 2.42, 2.39, 2.37, 2.34, 2.32, 2.29, 2.26, 2.24, 2.21, 2.18, 2.16, 2.13, 2.11, 2.08, 2.05, 2.03, 2.00, 1.97, 1.96, 1.93];
@@ -88,6 +92,7 @@ var recalculate = function(nohash) {
 		var rm_gem_multi = rm_gem_lvl == 0 ? 100 : 91 - rm_gem_lvl;
 		$(".rmg .multi", this).html("x" + rm_gem_multi.toString() + "%");
 
+		// additional rediced mana (for things like alphas howl or prism guardian) only takes effect for this aura group
 		var additional_reduced_mana = 0;
 		if($(".prg input:checked", this).length) {
 			additional_reduced_mana = 25;
@@ -97,15 +102,25 @@ var recalculate = function(nohash) {
 		// Alpha's howl for snapshotting
 		additional_reduced_mana += $(".alh input:checked").length ? 8 : 0;
 
+		/* Note: The calculation is a bit of a mess but it's from here:
+			http://www.pathofexile.com/forum/view-thread/567561/page/3
+
+			Mark GGG on that page describes the aura calculations working this way
+			so I've done my best to emulate it
+		*/
+		var calculate_aura = function(aura) {
+			return Math.ceil(Math.floor(aura * (rm_gem_multi / 100) * (bm_gem_multi / 100) * (other_multi / 100)) * ((reduced_mana - additional_reduced_mana) / 100) * mortal_conv);
+		}
+
 		// clarity gem
 		var clarity_lvl = $(".cla input[type=number]", this).restricted_val();
-		var clarity_mana = clarity_lvl == 0 ? 0 : Math.ceil(Math.floor((40 + (clarity_lvl * 20)) * (rm_gem_multi / 100) * (bm_gem_multi / 100) * (other_multi / 100)) * ((reduced_mana - additional_reduced_mana) / 100) * mortal_conv);
+		var clarity_mana = clarity_lvl == 0 ? 0 : calculate_aura(40 + (clarity_lvl * 20));
 		flat[+ blood_magic] += clarity_mana;
 		$(".cla .reserved-mana", this).html(clarity_mana.toString());
 
 		// individual % reserved auras
 		$("*[data-reserved]", this).each(function(){
-			var reserved_mana = Math.ceil(Math.floor($(this).data("reserved") * (rm_gem_multi / 100) * (bm_gem_multi / 100) * (other_multi / 100)) * ((reduced_mana - additional_reduced_mana) / 100) * mortal_conv);
+			var reserved_mana = calculate_aura($(this).data("reserved"));
 			if($("input:checked", this).length) {
 				perc[+ blood_magic] += reserved_mana;
 			}
@@ -113,43 +128,45 @@ var recalculate = function(nohash) {
 		});
 	});
 
-	// update globes
+	/* Update globes */
 	var life = $("input[name=life]").val();
 	var mana = $("input[name=mana]").val();
 
-	var life_r = Math.round(life * (perc[1] / 100)) + flat[1];
-	var mana_r = Math.round(mana * (perc[0] / 100)) + flat[0];
+	var life_reserved_numeric = Math.round(life * (perc[1] / 100)) + flat[1];
+	var mana_reserved_numeric = Math.round(mana * (perc[0] / 100)) + flat[0];
 
-	var life_rp = Math.floor((life_r / life) * 100);
-	var mana_rp = Math.floor((mana_r / mana) * 100);
+	var life_reserved_percent = Math.floor((life_reserved_numeric / life) * 100);
+	var mana_reserved_percent = Math.floor((mana_reserved_numeric / mana) * 100);
 
 	$("#hp, #mana").removeClass("error");
-	if((life - life_r) <= 0) {
+	if((life - life_reserved_numeric) <= 0) {
 		$("#hp").addClass("error");
 	}
-	if((mana - mana_r) < 0) {
+	if((mana - mana_reserved_numeric) < 0) {
 		$("#mana").addClass("error");
 	}
 
-	$("#hp .total").html((life - life_r) + "/" + life.toString());
-	$("#mana .total").html((mana - mana_r) + "/" + mana.toString());
+	$("#hp .total").html((life - life_reserved_numeric) + "/" + life.toString());
+	$("#mana .total").html((mana - mana_reserved_numeric) + "/" + mana.toString());
 
-	$("#hp .reserved").html(life_rp.toString());
-	$("#mana .reserved").html(mana_rp.toString());
+	$("#hp .reserved").html(life_reserved_percent.toString());
+	$("#mana .reserved").html(mana_reserved_percent.toString());
 
-	$("#hp div").css("height", (life_rp > 100 ? 100 : life_rp) * 2);
-	$("#mana div").css("height", (mana_rp > 100 ? 100 : mana_rp) * 2);
+	$("#hp div").css("height", (life_reserved_percent > 100 ? 100 : life_reserved_percent) * 2);
+	$("#mana div").css("height", (mana_reserved_percent > 100 ? 100 : mana_reserved_percent) * 2);
 
+	// remove all mana if blood magic
 	$("#mana").removeClass("blood");
 	if($(".bms input:checked").length) {
 		$("#mana").addClass("blood");
 		$("#mana .total").html("0/0");
 		$("#mana .reserved").html("0")
 	}
+	// saves current state of form to url
 	if(nohash != true) {
-		window.location.hash = $("#p").serialize();
+		location.replace("#" + $("#p").serialize());
 	}
-
+	// highlight edited fields
 	$("label.edited").removeClass("edited");
 	$("input[type=number]").each(function(){
 		var val = parseInt($(this).val());
@@ -161,6 +178,8 @@ var recalculate = function(nohash) {
 	$("input[type=checkbox]:checked").parents("label").addClass("edited");
 
 }
+
+/* Activates a new aura group for functionality */
 var activate_aura_group = function(grp){
 	$("input", grp).change(recalculate);
 	$("input", grp).keyup(recalculate);
@@ -168,9 +187,9 @@ var activate_aura_group = function(grp){
 		var section = $(this).parents("section");
 		if(confirm("Are you sure you want to delete: \"" + $("h3 input[type=text]", section).val() + "\"?")) {
 			section.remove();
+			$("input[name=auras]").val($(".aura-grp").length);
+			recalculate();
 		}
-		$("input[name=auras]").val($(".aura-grp").length);
-		recalculate();
 	});
 
 	$(".tog", grp).click(function(){
@@ -178,6 +197,8 @@ var activate_aura_group = function(grp){
 	});
 }
 
+/* Initialize */
+var aura_group = "";
 $().ready(function(){
 	var hash = window.location.hash.substr(1);
 	$("#skills input").change(recalculate);
@@ -185,6 +206,7 @@ $().ready(function(){
 	aura_group = $("#aura_1").html();
 	activate_aura_group($("#aura_1"));
 	$("a[rel=external]").attr("target", "_blank");
+	//add button
 	$("#add").click(function(){
 		var new_grp_id = $(".aura-grp").length + 1;
 		$(".aura-grp:last").after('<section id="aura_' + new_grp_id + '" class="row aura-grp">' + aura_group.replace(/\[1\]/g, "[" + new_grp_id + "]") + "</section>");
@@ -192,8 +214,24 @@ $().ready(function(){
 		$("input[name=auras]").val(new_grp_id);
 		activate_aura_group($(".aura-grp:last"));
 		recalculate();
+		return false;
+	});
+	// reset button
+	$("#reset").click(function() {
+		if(confirm("Are you sure you want to reset the entire form?")) {
+			$(".aura-grp:gt(0)").remove();
+			$("input[type=checkbox]").prop("checked", false);
+			$(".aura-grp input[type=text]").val("Aura Group 1");
+			$("input[type=number]").each(function(){
+				$(this).val($(this).data('default'));
+			});
+
+			recalculate();
+			location.replace("");
+		}
 	});
 
+	// loading variables from the hash in the url
 	var map = {};
 
 	$.each(hash.split("&"), function () {

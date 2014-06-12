@@ -33,6 +33,15 @@ var recalculate = function(nohash) {
 		$(".mcs input").prop("checked", false);
 		$(".mcs input").prop("disabled", true);
 	}
+	// Midnight Bargin 2
+	$(".mi2").removeClass("disabled");
+	$(".mi2 input").prop("disabled", false);
+	if(!$("input[name=mid]:checked").length) {
+		$(".mi2").addClass("disabled");
+		$(".mi2 input").prop("checked", false);
+		$(".mi2 input").prop("disabled", true);
+	}
+
 
 	// Skill tree
 	var reduced_mana = ($(".rms input[type=number]").restricted_val() - 100) * -1;
@@ -43,6 +52,7 @@ var recalculate = function(nohash) {
 
 	// Midnight Bargin
 	perc[1] += $(".mid input:checked").length ? 30 : 0;
+	perc[1] += $(".mi2 input:checked").length ? 30 : 0;
 
 	$(".aura-grp").each(function() {
 		// blood magic gem
@@ -122,6 +132,17 @@ var recalculate = function(nohash) {
 	if(nohash != true) {
 		window.location.hash = $("#p").serialize();
 	}
+
+	$("label.edited").removeClass("edited");
+	$("input[type=number]").each(function(){
+		var val = parseInt($(this).val());
+		val = isNaN(val) ? 0 : val;
+		if(val != parseInt($(this).data('default'))) {
+			$(this).parents("label").addClass("edited");
+		}
+	});
+	$("input[type=checkbox]:checked").parents("label").addClass("edited");
+
 }
 var activate_aura_group = function(grp){
 	$("input", grp).change(recalculate);
@@ -154,29 +175,29 @@ $().ready(function(){
 	var hash = window.location.hash.substr(1);
 	var map = {};
 
-    $.each(hash.split("&"), function () {
-        var nv = this.split("="),
-            n = decodeURIComponent(nv[0]),
-            v = nv.length > 1 ? decodeURIComponent(nv[1]) : null;
-        if (!(n in map)) {
-            map[n] = [];
-        }
-        map[n].push(v);
-    });
+	$.each(hash.split("&"), function () {
+		var nv = this.split("="),
+			n = decodeURIComponent(nv[0]),
+			v = nv.length > 1 ? decodeURIComponent(nv[1]) : null;
+		if (!(n in map)) {
+			map[n] = [];
+		}
+		map[n].push(v);
+	});
 
-    var auras = parseInt(map['auras']);
+	var auras = parseInt(map['auras']);
 
-    if(auras > 1) {
-    	for (var i = 0; i < auras - 1; i++) {
-    		$("#add").click();
-    	}
-    }
+	if(auras > 1) {
+		for (var i = 0; i < auras - 1; i++) {
+			$("#add").click();
+		}
+	}
 
 	$.each(map, function (n, v) {
-        $("[name='" + n + "'][type=number]").val(parseInt(v));
-        if($("[name='" + n + "'][type=checkbox]").length) {
-        	$("[name='" + n + "'][type=checkbox]").prop("checked", true);
-        }
-    });
+		$("[name='" + n + "'][type=number]").val(parseInt(v));
+		if($("[name='" + n + "'][type=checkbox]").length) {
+			$("[name='" + n + "'][type=checkbox]").prop("checked", true);
+		}
+	});
 	recalculate(true)
 });

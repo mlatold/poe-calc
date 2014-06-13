@@ -179,3 +179,55 @@ input[type=text] {
 .selected {
   text-decoration:line-through;
 }
+#fixed_footer {
+  background: black;
+  border-top: 1px solid #ccc;
+  font-size: 14px;
+  height: 21px;
+  display: none;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+  position: fixed;
+  font-weight: bold;
+  padding: 0 3px;
+  z-index: 99;
+}
+#hp_f {
+  float: left;
+  color: #F29494;
+}
+#mana_f {
+  color: #94A5F2;
+  float: right;
+}
+
+@media (max-width: 768px) {
+ #footer {
+  clear: both;
+  padding: 10px;
+ }
+ .bubble {
+  float: none !important;
+  margin: 30px auto 0 auto;
+ }
+}
+
+@media (max-width: 1650px) {
+ #fixed_footer {
+  display: block;
+ }
+}
+
+@media (min-width: 1650px) {
+  #hp {
+    position: fixed;
+    left: 10px;
+    bottom: 10px;
+  }
+  #mana {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+  }
+}

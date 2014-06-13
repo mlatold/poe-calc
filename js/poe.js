@@ -146,11 +146,11 @@ var recalculate = function(nohash) {
 		$("#mana").addClass("error");
 	}
 
-	$("#hp .total").html((life - life_reserved_numeric) + "/" + life.toString());
-	$("#mana .total").html((mana - mana_reserved_numeric) + "/" + mana.toString());
+	$("#hp_f .total, #hp .total").html((life - life_reserved_numeric) + "/" + life.toString());
+	$("#mana_f .total, #mana .total").html((mana - mana_reserved_numeric) + "/" + mana.toString());
 
-	$("#hp .reserved").html(life_reserved_percent.toString());
-	$("#mana .reserved").html(mana_reserved_percent.toString());
+	$("#hp_f .reserved, #hp .reserved").html(life_reserved_percent.toString());
+	$("#mana_f .reserved, #mana .reserved").html(mana_reserved_percent.toString());
 
 	$("#hp div").css("height", (life_reserved_percent > 100 ? 100 : life_reserved_percent) * 2);
 	$("#mana div").css("height", (mana_reserved_percent > 100 ? 100 : mana_reserved_percent) * 2);
@@ -159,8 +159,8 @@ var recalculate = function(nohash) {
 	$("#mana").removeClass("blood");
 	if($(".bms input:checked").length) {
 		$("#mana").addClass("blood");
-		$("#mana .total").html("0/0");
-		$("#mana .reserved").html("0")
+		$("#mana_f .total, #mana .total").html("0/0");
+		$("#mana_f .reserved, #mana .reserved").html("0")
 	}
 	// saves current state of form to url
 	if(nohash != true) {
@@ -209,7 +209,8 @@ var activate_aura_group = function(grp){
 /* Initialize */
 var aura_group = "";
 $().ready(function(){
-	var hash = window.location.hash.substr(1);
+	var hash = window.location.hash.substr(1).replace(/&amp;/g, "&");
+
 	$("#skills input").change(recalculate);
 	$("#skills input").keyup(recalculate);
 	aura_group = $("#aura_1").html();
@@ -223,6 +224,7 @@ $().ready(function(){
 		$("input[name=auras]").val(new_grp_id);
 		activate_aura_group($(".aura-grp:last"));
 		recalculate();
+		$(this).blur();
 		return false;
 	});
 	// reset button
@@ -232,12 +234,15 @@ $().ready(function(){
 			$("input[type=checkbox]").prop("checked", false);
 			$(".aura-grp input[type=text]").val("Aura Group 1");
 			$("input[type=number]").each(function(){
-				$(this).val($(this).data('default'));
+				$(this).val($(this).data('default') == 0 ? "" : $(this).data('default'));
 			});
+			$("input[type=number][name=rms]").val("0");
 
 			recalculate();
-			location.replace("");
+			location.replace("#");
 		}
+		$(this).blur();
+		return false;
 	});
 
 	// loading variables from the hash in the url

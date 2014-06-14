@@ -50,8 +50,6 @@ var recalculate = function(nohash) {
 		$(".advanced").css("display", "block");
 	}
 	else {
-		$(".enl input").prop("checked", false);
-		$(".enh input").prop("checked", false);
 		$(".emp input").prop("checked", false);
 
 		$(".alh input").prop("checked", false);
@@ -83,8 +81,6 @@ var recalculate = function(nohash) {
 		var blood_magic = ($(".bms input:checked").length || $(".bma input:checked", this).length || bm_gem_lvl) ? true : false;
 
 		var other_multi = $(".mul input[type=number]", this).restricted_val();
-		other_multi *= $(".enl input:checked", this).length ? 1.25 : 1;
-		other_multi *= $(".enh input:checked", this).length ? 1.25 : 1;
 		other_multi *= $(".emp input:checked", this).length ? 1.25 : 1;
 
 		// reduced mana gem

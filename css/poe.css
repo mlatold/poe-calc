@@ -147,6 +147,19 @@ label input[type=number] {
   padding: 0 2px;
   width: 60px;
 }
+#bitly_text {
+  border: 1px solid #ccc;
+  background: #222;
+  font-size: 16px;
+  color: #fff;
+  padding: 0 2px;
+  width: 150px;
+  height: 30px;
+}
+#bitly {
+  position: relative;
+  top: -2px;
+}
 label input[type=number].fr {
   margin-top: 3px;
   margin-right: 3px;
@@ -166,7 +179,7 @@ label input[type=number].fr {
 .advanced {
   display: none;
 }
-input[type=text] {
+.aura-grp input[type=text] {
   background: none;
   border: none;
   color: #fff;

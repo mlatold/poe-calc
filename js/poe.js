@@ -83,9 +83,9 @@ var recalculate = function(nohash) {
 		var blood_magic = ($(".bms input:checked").length || $(".bma input:checked", this).length || bm_gem_lvl) ? true : false;
 
 		var other_multi = $(".mul input[type=number]", this).restricted_val();
-		other_multi += $(".enl input:checked", this).length ? 25 : 0;
-		other_multi += $(".enh input:checked", this).length ? 25 : 0;
-		other_multi += $(".emp input:checked", this).length ? 25 : 0;
+		other_multi *= $(".enl input:checked", this).length ? 1.25 : 1;
+		other_multi *= $(".enh input:checked", this).length ? 1.25 : 1;
+		other_multi *= $(".emp input:checked", this).length ? 1.25 : 1;
 
 		// reduced mana gem
 		var rm_gem_lvl = $(".rmg input[type=number]", this).restricted_val();
@@ -208,6 +208,8 @@ var activate_aura_group = function(grp){
 
 /* Initialize */
 var aura_group = "";
+var access_token = '887ecbfea2063ee8f9623a50ba6d08ffc0104a50';
+
 $().ready(function(){
 	var hash = window.location.hash.substr(1).replace(/&amp;/g, "&");
 
@@ -244,6 +246,17 @@ $().ready(function(){
 		$(this).blur();
 		return false;
 	});
+	// Bit.ly link generator
+	$("#bitly").click(function(){
+		$(this).blur();
+		$("#bitly_text").val("Fetching URL...");
+		$.getJSON(
+			'https://api-ssl.bitly.com/v3/shorten?access_token=' + access_token + '&longUrl=' + encodeURIComponent(document.URL), {},
+			function(json){
+				$("#bitly_text").val(json.data.url);
+			}
+		);
+	});
 
 	// loading variables from the hash in the url
 	var map = {};
@@ -276,5 +289,6 @@ $().ready(function(){
 			$("[name='" + n + "'][type=checkbox]").prop("checked", true);
 		}
 	});
-	recalculate((auras <= 1))
+
+	recalculate((auras <= 1));
 });

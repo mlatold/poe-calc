@@ -161,7 +161,7 @@
 					<div class="col-sm-6 col-md-4">
 						<label class="mul advanced">
 							<img src="img/multi.png">
-							<abbr title="Apply this when linking auras to various support gems">Mana Multiplier %</abbr> <input type="number" class="fr" min="0" max="1000" data-default="100" value="100" name="mul[1]"><div class="cr"></div>
+							<abbr title="Apply this when linking auras to various support gems. Remember that the multipliers are multiplicative (ie. 110% and 150% = 165%) formula: (x * z / 100), round up">Mana Multiplier %</abbr> <input type="number" class="fr" min="0" max="1000" data-default="100" value="100" name="mul[1]"><div class="cr"></div>
 						</label>
 					</div>
 					<div class="col-sm-6 col-md-4">
@@ -188,7 +188,7 @@
 				<div class="col-sm-6 col-md-4">
 					<label class="rms">
 						<img src="img/reduced_mana_skill.png">
-						<abbr title="The ingame maximum from tree is currently 46%">Reduced Mana %:</abbr>
+						<abbr title="The ingame maximum from skill tree is currently 46%">Reduced Mana %:</abbr>
 						<input type="number" data-default="0" class="fr" min="0" max="99" value="0" name="rms"><div class="cr"></div>
 					</label>
 				</div>
@@ -250,34 +250,39 @@
 				</div>
 				<div class="cb pt"></div>
 			</section>
-			<section id="final" class="row">
-				<div class="bubble" id="hp">Reserved: <span class="reserved">0</span>%<br />Life: <span class="total">1000/1000</span><div></div></div>
-				<div class="bubble" id="mana">Reserved: <span class="reserved">0</span>%<br />Mana: <span class="total">1000/1000</span><div></div></div>
-				<div id="footer">
-					created by <a rel="external" href="http://www.mikelat.com">mikelat</a><br />
-					<a rel="external" href="http://www.mikelat.com/contact">contact me</a>
-					 &bullet; <a rel="external" href="https://twitter.com/mikelatLP">tweeter</a>
-					 &bullet; <a rel="external" href="http://www.pathofexile.com/account/view-profile/mikelat">my poe profile</a>
-					 &bullet; <a rel="external" href="https://github.com/mikelat/poe-calc">github repo</a>
-					<br /><br />
-					thanks to <a rel="external" href="http://www.pathofexile.com/account/view-profile/vgpat">vgpat</a> for testing and help
-					<br /><br />
-					path of exile images and assets are owned by <a href="http://www.grindinggear.com/" rel="external">grinding gear games</a>.
-				</div>
-			</section>
-			<div id="fixed_footer">
-				<div id="hp_f">
-					<span class="total">1000/1000</span>
-					(<span class="reserved">0</span>%)
-				</div>
-				<div id="mana_f">
-					<span class="total">1000/1000</span>
-					(<span class="reserved">0</span>%)
-				</div>
-			</div>
 		</form>
+		<section id="final" class="row">
+			<div class="tc">
+				<input type="text" name="bitly_text" id="bitly_text" />
+				<button type="button" class="btn btn-success btn-sm" id="bitly">Generate Bit.ly Link</button>
+			</div>
+			<div class="cb"></div>
+			<div class="bubble" id="hp">Reserved: <span class="reserved">0</span>%<br />Life: <span class="total">1000/1000</span><div></div></div>
+			<div class="bubble" id="mana">Reserved: <span class="reserved">0</span>%<br />Mana: <span class="total">1000/1000</span><div></div></div>
+			<div id="footer">
+				created by <a rel="external" href="http://www.mikelat.com">mikelat</a><br />
+				<a rel="external" href="http://www.mikelat.com/contact">contact me</a>
+				 &bullet; <a rel="external" href="https://twitter.com/mikelatLP">tweeter</a>
+				 &bullet; <a rel="external" href="http://www.pathofexile.com/account/view-profile/mikelat">my poe profile</a>
+				 &bullet; <a rel="external" href="https://github.com/mikelat/poe-calc">github repo</a>
+				<br /><br />
+				thanks to <a rel="external" href="http://www.pathofexile.com/account/view-profile/vgpat">vgpat</a> for testing and help
+				<br /><br />
+				path of exile images and assets are owned by <a href="http://www.grindinggear.com/" rel="external">grinding gear games</a>.
+			</div>
+		</section>
+		<div id="fixed_footer">
+			<div id="hp_f">
+				<span class="total">1000/1000</span>
+				(<span class="reserved">0</span>%)
+			</div>
+			<div id="mana_f">
+				<span class="total">1000/1000</span>
+				(<span class="reserved">0</span>%)
+			</div>
+		</div>
 	</div>
 	<script src="js/jquery-2.1.1.min.js"></script>
-	<script src="js/poe.js?16"></script>
+	<script src="js/poe.js?18"></script>
 </body>
 </html>

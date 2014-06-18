@@ -105,7 +105,7 @@ var recalculate = function(nohash) {
 			so I've done my best to emulate it
 		*/
 		var calculate_aura = function(aura) {
-			return Math.ceil(Math.floor(aura * (rm_gem_multi / 100) * (bm_gem_multi / 100) * (other_multi / 100)) * ((reduced_mana - additional_reduced_mana) / 100) * mortal_conv);
+			return Math.floor(Math.ceil(Math.floor(aura * (rm_gem_multi / 100) * (bm_gem_multi / 100) * (other_multi / 100)) * ((reduced_mana - additional_reduced_mana) / 100)) * mortal_conv);
 		}
 
 		// clarity gem

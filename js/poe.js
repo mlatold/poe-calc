@@ -68,10 +68,6 @@ var recalculate = function(nohash) {
 	perc[1] += $(".mid input:checked").length ? 30 : 0;
 	perc[1] += $(".mi2 input:checked").length ? 30 : 0;
 
-	/* Update globes */
-	var life = $("input[name=life]").val();
-	var mana = $("input[name=mana]").val();
-
 	/* Aura groups are meant to be as "links" so users can combine different variables applicable only to
 		specific auras, so a lot of math has to be done seperately here */
 	$(".aura-grp").each(function() {
@@ -111,8 +107,6 @@ var recalculate = function(nohash) {
 		var calculate_aura = function(aura) {
 			var calc_reduced = Math.round(((reduced_mana - additional_reduced_mana) * mortal_conv) / 100 - 100) + 100;
 			var calc_reserved = Math.ceil(aura * (rm_gem_multi / 100) * (bm_gem_multi / 100) * (other_multi / 100));
-
-			//console.log(calc_reduced, calc_reserved);
 			return Math.round(calc_reserved * calc_reduced / 100);
 		}
 
@@ -126,13 +120,16 @@ var recalculate = function(nohash) {
 		$("*[data-reserved]", this).each(function(){
 			var reserved_mana = calculate_aura($(this).data("reserved"));
 			if($("input:checked", this).length) {
-				//flat[+ blood_magic] += (blood_magic ? life : mana) * reserved_mana / 100;
 				perc[+ blood_magic] += reserved_mana;
 			}
 
 			$(".reserved", this).html(reserved_mana + "%");
 		});
 	});
+
+	/* Update globes */
+	var life = $("input[name=life]").val();
+	var mana = $("input[name=mana]").val();
 
 	var life_reserved_numeric = Math.round(life * (perc[1] / 100)) + flat[1];
 	var mana_reserved_numeric = Math.round(mana * (perc[0] / 100)) + flat[0];

@@ -58,8 +58,8 @@ var recalculate = function(nohash) {
 	}
 
 	// Skill tree
-	var reduced_mana = ($(".rms input[type=number]").restricted_val() - 100) * -1;
-	var mortal_conv = $(".mcs input:checked").length ? .6 : 1;
+	var reduced_mana = 100 + $(".rms input[type=number]").restricted_val() * -1;
+	var mortal_conv = $(".mcs input:checked").length ? 60 : 100;
 
 	// Alpha's howl
 	reduced_mana -= $(".alp input:checked").length ? 8 : 0;
@@ -67,6 +67,10 @@ var recalculate = function(nohash) {
 	// Midnight Bargain
 	perc[1] += $(".mid input:checked").length ? 30 : 0;
 	perc[1] += $(".mi2 input:checked").length ? 30 : 0;
+
+	/* Update globes */
+	var life = $("input[name=life]").val();
+	var mana = $("input[name=mana]").val();
 
 	/* Aura groups are meant to be as "links" so users can combine different variables applicable only to
 		specific auras, so a lot of math has to be done seperately here */
@@ -105,7 +109,11 @@ var recalculate = function(nohash) {
 			so I've done my best to emulate it
 		*/
 		var calculate_aura = function(aura) {
-			return Math.floor(Math.ceil(Math.floor(aura * (rm_gem_multi / 100) * (bm_gem_multi / 100) * (other_multi / 100)) * ((reduced_mana - additional_reduced_mana) / 100)) * mortal_conv);
+			var calc_reduced = Math.round(((reduced_mana - additional_reduced_mana) * mortal_conv) / 100 - 100) + 100;
+			var calc_reserved = Math.ceil(aura * (rm_gem_multi / 100) * (bm_gem_multi / 100) * (other_multi / 100));
+
+			//console.log(calc_reduced, calc_reserved);
+			return Math.round(calc_reserved * calc_reduced / 100);
 		}
 
 		// clarity gem
@@ -118,15 +126,13 @@ var recalculate = function(nohash) {
 		$("*[data-reserved]", this).each(function(){
 			var reserved_mana = calculate_aura($(this).data("reserved"));
 			if($("input:checked", this).length) {
+				//flat[+ blood_magic] += (blood_magic ? life : mana) * reserved_mana / 100;
 				perc[+ blood_magic] += reserved_mana;
 			}
+
 			$(".reserved", this).html(reserved_mana + "%");
 		});
 	});
-
-	/* Update globes */
-	var life = $("input[name=life]").val();
-	var mana = $("input[name=mana]").val();
 
 	var life_reserved_numeric = Math.round(life * (perc[1] / 100)) + flat[1];
 	var mana_reserved_numeric = Math.round(mana * (perc[0] / 100)) + flat[0];

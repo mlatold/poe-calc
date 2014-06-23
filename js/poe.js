@@ -58,8 +58,8 @@ var recalculate = function(nohash) {
 	}
 
 	// Skill tree
-	var reduced_mana = ($(".rms input[type=number]").restricted_val() - 100) * -1;
-	var mortal_conv = $(".mcs input:checked").length ? .6 : 1;
+	var reduced_mana = 100 + $(".rms input[type=number]").restricted_val() * -1;
+	var mortal_conv = $(".mcs input:checked").length ? 60 : 100;
 
 	// Alpha's howl
 	reduced_mana -= $(".alp input:checked").length ? 8 : 0;
@@ -105,7 +105,9 @@ var recalculate = function(nohash) {
 			so I've done my best to emulate it
 		*/
 		var calculate_aura = function(aura) {
-			return Math.ceil(Math.floor(aura * (rm_gem_multi / 100) * (bm_gem_multi / 100) * (other_multi / 100)) * ((reduced_mana - additional_reduced_mana) / 100) * mortal_conv);
+			var calc_reduced = Math.round(((reduced_mana - additional_reduced_mana) * mortal_conv) / 100 - 100) * -1;
+			var calc_reserved = Math.floor(aura * (rm_gem_multi / 100) * (bm_gem_multi / 100) * (other_multi / 100));
+			return calc_reserved - Math.floor(calc_reduced / 100 * calc_reserved);
 		}
 
 		// clarity gem
@@ -120,6 +122,7 @@ var recalculate = function(nohash) {
 			if($("input:checked", this).length) {
 				perc[+ blood_magic] += reserved_mana;
 			}
+
 			$(".reserved", this).html(reserved_mana + "%");
 		});
 	});

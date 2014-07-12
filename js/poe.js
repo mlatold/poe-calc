@@ -72,7 +72,7 @@ var recalculate = function(nohash) {
 		specific auras, so a lot of math has to be done seperately here */
 	$(".aura-grp").each(function() {
 		// blood magic gem
-		var bm_gem_multipliers = [2.45, 2.42, 2.39, 2.37, 2.34, 2.32, 2.29, 2.26, 2.24, 2.21, 2.18, 2.16, 2.13, 2.11, 2.08, 2.05, 2.03, 2.00, 1.97, 1.96, 1.93];
+		var bm_gem_multipliers = [2.45, 2.42, 2.39, 2.37, 2.34, 2.32, 2.29, 2.26, 2.24, 2.21, 2.18, 2.16, 2.13, 2.11, 2.08, 2.05, 2.03, 2.00, 1.97, 1.96, 1.93, 1.90, 1.87];
 		var bm_gem_lvl = $(".bmg input[type=number]", this).restricted_val();
 		var bm_gem_multi = bm_gem_lvl == 0 ? 100 : Math.ceil(bm_gem_multipliers[bm_gem_lvl - 1] * 100);
 		$(".bmg .multi", this).html("x" + bm_gem_multi.toString() + "%");

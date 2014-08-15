@@ -6,13 +6,13 @@
 	<link href="css/poe.css" rel="stylesheet" />
 	<link rel="icon" type="image/png" href="/favicon.png" />
 	<link href="/favicon.ico" rel="shortcut icon" />
-	<title>Mikelat's Path of Exile Aura Calculator</title>
+	<title>Mikelat's Path of Exile Aura Calculator for v1.2.0</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<meta name="Description" content="Calculate your mana reserved from multipule aura groups.">
 </head>
 <body>
 	<div class="container">
-		<h1>Mikelat's Path of Exile Aura Calculator</h1>
+		<h1>Mikelat's Path of Exile Aura Calculator for v1.2.0</h1>
 		<form id="p" action="#" onsubmit="return false">
 			<input type="hidden" name="auras" value="1">
 			<section id="aura_1" class="row aura-grp">
@@ -141,28 +141,21 @@
 						</label>
 					</div>
 					<div class="col-sm-6 col-md-4">
-						<label class="emp advanced">
+						<label class="emp">
 							<img src="img/empower.png">
 							<input type="checkbox" name="emp[1]" value="1"> Empower <span class="multi">x125%</span><div class="cr"></div>
 						</label>
 					</div>
 					<div class="col-sm-6 col-md-4">
-						<label class="mul advanced">
+						<label class="gen">
+							??
+							<input type="checkbox" name="gen[1]" value="1"> Generosity <span class="multi">x100%</span><div class="cr"></div>
+						</label>
+					</div>
+					<div class="col-sm-6 col-md-4">
+						<label class="mul">
 							<img src="img/multi.png">
 							<abbr title="Apply this when linking auras to various support gems. Remember that the multipliers are multiplicative (ie. 110% and 150% = 165%) formula: (x * z / 100), round up">Mana Multiplier %</abbr> <input type="number" class="fr" min="0" max="1000" data-default="100" value="100" name="mul[1]"><div class="cr"></div>
-						</label>
-					</div>
-					<div class="col-sm-6 col-md-4">
-						<label class="bma advanced">
-							<img src="img/blood_magic_skill.png">
-							<input type="checkbox" name="bma[1]" value="1"> <abbr title="Intended for calculations when snapshotting">Blood Magic</abbr> <span class="multi">x100%</span><div class="cr"></div>
-						</label>
-					</div>
-					<div class="col-sm-6 col-md-4">
-						<label class="alh advanced">
-							<img src="img/alphas_howl.png">
-							<input type="checkbox" name="alh" value="1">
-							<abbr title="Intended for calculations when snapshotting">Alpha's Howl</abbr> <span class="multi">x92%</span><div class="cr"></div>
 						</label>
 					</div>
 					<div class="cb pt"></div>
@@ -176,8 +169,8 @@
 				<div class="col-sm-6 col-md-4">
 					<label class="rms">
 						<img src="img/reduced_mana_skill.png">
-						<abbr title="The ingame maximum from skill tree is currently 46%">Reduced Mana %:</abbr>
-						<input type="number" data-default="0" class="fr" min="0" max="99" value="0" name="rms"><div class="cr"></div>
+						<abbr title="The ingame maximum from skill tree is currently 38%">Reduced Mana %:</abbr>
+						<input type="number" data-default="0" class="fr" min="0" max="80" value="0" name="rms"><div class="cr"></div>
 					</label>
 				</div>
 				<div class="col-sm-6 col-md-4">
@@ -191,7 +184,7 @@
 					<label class="mcs disabled">
 						<img src="img/mortal_conviction_skill.png">
 						<input type="checkbox" name="mcs" value="1" disabled="disabled">
-						Mortal Conviction <span class="multi">x60%</span><div class="cr"></div>
+						Mortal Conviction <span class="multi">x50%</span><div class="cr"></div>
 					</label>
 				</div>
 				<div class="cb pt"></div>
@@ -229,6 +222,7 @@
 						Total Mana: <input type="number" data-default="1000" class="fr" value="1000" min="0" max="100000" value="1000" name="mana"><div class="cr"></div>
 					</label>
 				</div>
+				<!--
 				<div class="col-sm-6 col-md-4">
 					<label class="adv">
 						<img src="img/advanced.png">
@@ -236,6 +230,7 @@
 						Show Advanced Options
 					</label>
 				</div>
+				-->
 				<div class="cb pt"></div>
 			</section>
 		</form>
@@ -254,7 +249,7 @@
 				 &bullet; <a rel="external" href="http://www.pathofexile.com/account/view-profile/mikelat">my poe profile</a>
 				 &bullet; <a rel="external" href="https://github.com/mikelat/poe-calc">github repo</a>
 				<br /><br />
-				thanks to <a rel="external" href="http://www.pathofexile.com/account/view-profile/vgpat">vgpat</a> and <a rel="external" href="http://www.pathofexile.com/account/view-profile/Vipermagi">Vipermagi</a> for testing and help
+				thanks to <a rel="external" href="http://www.pathofexile.com/account/view-profile/vgpat">vgpat</a> and <a rel="external" href="http://www.pathofexile.com/account/view-profile/Vipermagi">vipermagi</a> for testing and help
 				<br /><br />
 				path of exile images and assets are owned by <a href="http://www.grindinggear.com/" rel="external">grinding gear games</a>.
 			</div>
@@ -271,6 +266,6 @@
 		</div>
 	</div>
 	<script src="js/jquery-2.1.1.min.js"></script>
-	<script src="js/poe.js?21"></script>
+	<script src="js/poe.js?20"></script>
 </body>
 </html>

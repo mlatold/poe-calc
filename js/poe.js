@@ -44,6 +44,7 @@ var recalculate = function(nohash) {
 	}
 
 	// setting advanced settings back to default
+	/*
 	$(".advanced").hide();
 	if($(".adv input:checked").length) {
 		$(".advanced").show();
@@ -56,10 +57,11 @@ var recalculate = function(nohash) {
 		$(".bma input").prop("checked", false);
 		$(".mul input").val("100");
 	}
+	*/
 
 	// Skill tree
 	var reduced_mana = 100 + $(".rms input[type=number]").restricted_val() * -1;
-	var mortal_conv = $(".mcs input:checked").length ? 60 : 100;
+	var mortal_conv = $(".mcs input:checked").length ? 50 : 100;
 
 	// Alpha's howl
 	reduced_mana -= $(".alp input:checked").length ? 8 : 0;
@@ -112,7 +114,7 @@ var recalculate = function(nohash) {
 
 		// clarity gem
 		var clarity_lvl = $(".cla input[type=number]", this).restricted_val();
-		var clarity_mana = clarity_lvl == 0 ? 0 : calculate_aura(40 + (clarity_lvl * 20));
+		var clarity_mana = clarity_lvl == 0 ? 0 : calculate_aura(40 + (clarity_lvl * 24));
 		flat[+ blood_magic] += clarity_mana;
 		$(".cla .reserved-mana", this).html(clarity_mana.toString());
 

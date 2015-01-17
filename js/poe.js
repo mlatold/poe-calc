@@ -1,18 +1,97 @@
+var auras_encode = [
+	// add new things up here
+	['gen', 1],
+	['emp', 1],
+	['prg', 1],
+	['wra', 1],
+	['vit', 1],
+	['tem', 1],
+	['pol', 1],
+	['poi', 1],
+	['pof', 1],
+	['poe', 1],
+	['hol', 1],
+	['hoi', 1],
+	['hoa', 1],
+	['hat', 1],
+	['has', 1],
+	['gra', 1],
+	['dis', 1],
+	['det', 1],
+	['ang', 1],
+	['rmg', 5],
+	['bmg', 5],
+	['cla', 5],
+	['mul', 10]
+]
+
+var settings_encode = [
+	// add new things up here
+	['mi2', 1],
+	['mid', 1],
+	['alp', 1],
+	['mcs', 1],
+	['bms', 1],
+	['rms', 7],
+	['mana', 15],
+	['life', 15]
+]
+
+function pad(num, amount) {
+	var zeros = new Array(amount + 1).join("0");
+	return (zeros + "" + num).slice(amount * -1);
+}
+
+
+var alpha = {
+	index: 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ=_-',
+
+	encode: function(encnum) {
+
+		var ret = '';
+
+		for (var i = Math.floor(Math.log(parseInt(encnum)) / Math.log(alpha.index.length)); i >= 0; i--) {
+			ret = ret + alpha.index.substr((Math.floor(parseInt(encnum) / alpha.bcpow(alpha.index.length, i)) % alpha.index.length), 1);
+		}
+
+		return ret.reverse();
+	},
+
+	decode: function(decstr) {
+		var str = decstr.reverse();
+		var ret = 0;
+
+		for (var i = 0; i <= (str.length - 1); i++) {
+			ret = ret + alpha.index.indexOf(str.substr(i, 1)) * (alpha.bcpow(alpha.index.length, (str.length - 1) - i));
+		}
+
+		return ret;
+	},
+
+	bcpow: function(_a, _b) {
+		return Math.floor(Math.pow(parseFloat(_a), parseInt(_b)));
+	}
+};
+String.prototype.reverse = function() {
+	return this.split('').reverse().join('');
+};
+
+
 /* This restricts fetched input fields to their min/max attributes */
-$.fn.restricted_val = function(){
+$.fn.restricted_val = function() {
 	var obj = $(this);
 	var val = parseInt(obj.val());
 	var lower = parseInt(obj.attr('min'));
 	var upper = parseInt(obj.attr('max'));
-	if(isNaN(val)) {
+	if (isNaN(val)) {
 		obj.val("");
 		return 0;
 	}
-	if(obj.val() < lower) {
+	if (obj.val() < lower) {
 		obj.val(lower);
 		return lower;
 	}
-	if(obj.val() > upper) {
+	if (obj.val() > upper) {
 		obj.val(upper);
 		return upper;
 	}
@@ -22,6 +101,9 @@ $.fn.restricted_val = function(){
 
 /* This recalculates everything on the page all in one go */
 var recalculate = function(nohash) {
+	if($("#viewing").is(":visible")) {
+		return;
+	}
 	// index 0 is mana, 1 is life
 	var flat = [0, 0];
 	var perc = [0, 0];
@@ -29,7 +111,7 @@ var recalculate = function(nohash) {
 	// Blood magic convocation skill only allowed if blood magic is checked
 	$(".mcs").removeClass("disabled");
 	$(".mcs input").prop("disabled", false);
-	if(!$("input[name=bms]:checked").length) {
+	if (!$("input[name=bms]:checked").length) {
 		$(".mcs").addClass("disabled");
 		$(".mcs input").prop("checked", false);
 		$(".mcs input").prop("disabled", true);
@@ -37,7 +119,7 @@ var recalculate = function(nohash) {
 	// Midnight Bargain x2 (if midnight bargain 1 is checked)
 	$(".mi2").removeClass("disabled");
 	$(".mi2 input").prop("disabled", false);
-	if(!$("input[name=mid]:checked").length) {
+	if (!$("input[name=mid]:checked").length) {
 		$(".mi2").addClass("disabled");
 		$(".mi2 input").prop("checked", false);
 		$(".mi2 input").prop("disabled", true);
@@ -61,7 +143,7 @@ var recalculate = function(nohash) {
 
 	// Skill tree
 	var reduced_mana = 100 + $(".rms input[type=number]").restricted_val() * -1;
-	var mortal_conv = $(".mcs input:checked").length ? 40 : 100;
+	var mortal_conv = $(".mcs input:checked").length ? 50 : 100;
 
 	// Alpha's howl
 	reduced_mana -= $(".alp input:checked").length ? 8 : 0;
@@ -92,7 +174,7 @@ var recalculate = function(nohash) {
 
 		// additional rediced mana (for things like alphas howl or prism guardian) only takes effect for this aura group
 		var additional_reduced_mana = 0;
-		if($(".prg input:checked", this).length) {
+		if ($(".prg input:checked", this).length) {
 			additional_reduced_mana = 25;
 			blood_magic = true;
 		}
@@ -115,14 +197,14 @@ var recalculate = function(nohash) {
 		// clarity gem
 		var clarity_lvl = $(".cla input[type=number]", this).restricted_val();
 		var clarity_mana = clarity_lvl == 0 ? 0 : calculate_aura(40 + (clarity_lvl * 24));
-		flat[+ blood_magic] += clarity_mana;
+		flat[+blood_magic] += clarity_mana;
 		$(".cla .reserved-mana", this).html(clarity_mana.toString());
 
 		// individual % reserved auras
-		$("*[data-reserved]", this).each(function(){
+		$("*[data-reserved]", this).each(function() {
 			var reserved_mana = calculate_aura($(this).data("reserved"));
-			if($("input:checked", this).length) {
-				perc[+ blood_magic] += reserved_mana;
+			if ($("input:checked", this).length) {
+				perc[+blood_magic] += reserved_mana;
 			}
 
 			$(".reserved", this).html(reserved_mana + "%");
@@ -130,8 +212,11 @@ var recalculate = function(nohash) {
 	});
 
 	/* Update globes */
-	var life = $("input[name=life]").val();
-	var mana = $("input[name=mana]").val();
+	var life = $("input[name=life]").restricted_val();
+	var mana = $("input[name=mana]").restricted_val();
+
+	mana = mana ? mana : 1;
+	life = life ? life : 1;
 
 	var life_reserved_numeric = Math.round(life * (perc[1] / 100)) + flat[1];
 	var mana_reserved_numeric = Math.round(mana * (perc[0] / 100)) + flat[0];
@@ -140,10 +225,10 @@ var recalculate = function(nohash) {
 	var mana_reserved_percent = Math.floor((mana_reserved_numeric / mana) * 100);
 
 	$("#hp, #mana").removeClass("error");
-	if((life - life_reserved_numeric) <= 0) {
+	if ((life - life_reserved_numeric) <= 0) {
 		$("#hp").addClass("error");
 	}
-	if((mana - mana_reserved_numeric) < 0) {
+	if ((mana - mana_reserved_numeric) < 0) {
 		$("#mana").addClass("error");
 	}
 
@@ -158,21 +243,50 @@ var recalculate = function(nohash) {
 
 	// remove all mana if blood magic
 	$("#mana").removeClass("blood");
-	if($(".bms input:checked").length) {
+	$(".total_mana").parent().show();
+	if ($(".bms input:checked").length) {
+		$(".total_mana").parent().hide();
 		$("#mana").addClass("blood");
 		$("#mana_f .total, #mana .total").html("0/0");
 		$("#mana_f .reserved, #mana .reserved").html("0")
 	}
 	// saves current state of form to url
-	if(nohash != true) {
-		location.replace("#" + $("#p").serialize());
+	if (nohash != true) {
+		var bin = "";
+		var hash = [];
+		$.each(settings_encode, function(i, v) {
+			if ($("input[name=" + v[0] + "]").is("[type=checkbox]")) {
+				bin += pad(($("input[name=" + v[0] + "]").is(":checked") ? 1 : 0), 1);
+			} else {
+				var val = $("input[name=" + v[0] + "]").val();
+				bin += pad((val ? parseInt(val) : 0).toString(2), v[1]);
+			}
+		});
+
+		hash.push(alpha.encode(parseInt(bin,2)));
+
+		$(".aura-grp").each(function() {
+			var grp = $(this);
+			var bin = "";
+
+			$.each(auras_encode, function(i, v) {
+				if ($("." + v[0] + " input", grp).is("[type=checkbox]")) {
+					bin += pad(($("." + v[0] + " input", grp).is(":checked") ? 1 : 0), 1);
+				} else {
+					var val = $("." + v[0] + " input", grp).val();
+					bin += pad((val ? parseInt(val) : 0).toString(2), v[1]);
+				}
+			});
+			hash.push(alpha.encode(parseInt(bin,2)));
+		});
+		location.replace("#" + hash.join("/"));
 	}
 	// highlight edited fields
 	$("label.edited").removeClass("edited");
-	$("input[type=number]").each(function(){
+	$("input[type=number]").each(function() {
 		var val = parseInt($(this).val());
 		val = isNaN(val) ? 0 : val;
-		if(val != parseInt($(this).data('default'))) {
+		if (val != parseInt($(this).data('default'))) {
 			$(this).parents("label").addClass("edited");
 		}
 	});
@@ -180,29 +294,29 @@ var recalculate = function(nohash) {
 
 	// adds "selected" class so people know they've already selected something
 	$("label.selected").removeClass("selected");
-	$("*[data-reserved] input:checked").each(function(){
+	$("*[data-reserved] input:checked").each(function() {
 		var name = $(this).attr("name").replace(/\[[0-9]*\]/, "");
 		$("label." + name + ":not(.edited)").addClass("selected");
 	});
-	if($(".cla.edited").length) {
+	if ($(".cla.edited").length) {
 		$(".cla:not(.edited)").addClass("selected");
 	}
 }
 
 /* Activates a new aura group for functionality */
-var activate_aura_group = function(grp){
+var activate_aura_group = function(grp) {
 	$("input", grp).change(recalculate);
 	$("input", grp).keyup(recalculate);
-	$(".del", grp).click(function(){
+	$(".del", grp).click(function() {
 		var section = $(this).parents("section");
-		if(confirm("Are you sure you want to delete: \"" + $("h3 input[type=text]", section).val() + "\"?")) {
+		if (confirm("Are you sure you want to delete: \"" + $("h3 input[type=text]", section).val() + "\"?")) {
 			section.remove();
 			$("input[name=auras]").val($(".aura-grp").length);
 			recalculate();
 		}
 	});
 
-	$(".tog", grp).click(function(){
+	$(".tog", grp).click(function() {
 		$(".collapsible", $(this).parents("section")).slideToggle(200);
 	});
 }
@@ -211,7 +325,7 @@ var activate_aura_group = function(grp){
 var aura_group = "";
 var access_token = '887ecbfea2063ee8f9623a50ba6d08ffc0104a50';
 
-$().ready(function(){
+$().ready(function() {
 	var hash = window.location.hash.substr(1).replace(/&amp;/g, "&");
 
 	$("#skills input").change(recalculate);
@@ -220,10 +334,10 @@ $().ready(function(){
 	activate_aura_group($("#aura_1"));
 	$("a[rel=external]").attr("target", "_blank");
 	//add button
-	$("#add").click(function(){
+	$("#add").click(function() {
 		var new_grp_id = $(".aura-grp").length + 1;
 		$(".aura-grp:last").after('<section id="aura_' + new_grp_id + '" class="row aura-grp">' + aura_group.replace(/\[1\]/g, "[" + new_grp_id + "]") + "</section>");
-		$(".aura-grp:last input[type=text]").val("Aura Group " + new_grp_id.toString());
+		$(".aura-grp:last h3 span").html("Aura Group " + new_grp_id.toString());
 		$("input[name=auras]").val(new_grp_id);
 		activate_aura_group($(".aura-grp:last"));
 		recalculate();
@@ -232,11 +346,10 @@ $().ready(function(){
 	});
 	// reset button
 	$("#reset").click(function() {
-		if(confirm("Are you sure you want to reset the entire form?")) {
+		if (confirm("Are you sure you want to reset the entire form?")) {
 			$(".aura-grp:gt(0)").remove();
 			$("input[type=checkbox]").prop("checked", false);
-			$(".aura-grp input[type=text]").val("Aura Group 1");
-			$("input[type=number]").each(function(){
+			$("input[type=number]").each(function() {
 				$(this).val($(this).data('default') == 0 ? "" : $(this).data('default'));
 			});
 			$("input[type=number][name=rms]").val("0");
@@ -247,49 +360,107 @@ $().ready(function(){
 		$(this).blur();
 		return false;
 	});
-	// Bit.ly link generator
-	$("#bitly").click(function(){
-		$(this).blur();
-		$("#bitly_text").val("Fetching URL...");
-		$.getJSON(
-			'https://api-ssl.bitly.com/v3/shorten?access_token=' + access_token + '&longUrl=' + encodeURIComponent(document.URL), {},
-			function(json){
-				$("#bitly_text").val(json.data.url);
+
+	var loaded_from_url = false;
+
+	// legacy style loading of auras
+	if(hash.indexOf('&') !== -1) {
+		var map = {};
+
+		$.each(hash.split("&"), function() {
+			var nv = this.split("="),
+				n = decodeURIComponent(nv[0]),
+				v = nv.length > 1 ? decodeURIComponent(nv[1]) : null;
+			if (!(n in map)) {
+				map[n] = [];
 			}
-		);
-	});
+			map[n].push(v);
+		});
 
-	// loading variables from the hash in the url
-	var map = {};
+		var auras = parseInt(map['auras']);
 
-	$.each(hash.split("&"), function () {
-		var nv = this.split("="),
-			n = decodeURIComponent(nv[0]),
-			v = nv.length > 1 ? decodeURIComponent(nv[1]) : null;
-		if (!(n in map)) {
-			map[n] = [];
+		if (auras > 1) {
+			for (var i = 0; i < auras - 1; i++) {
+				$("#add").click();
+			}
+		} else {
+			auras = 1;
 		}
-		map[n].push(v);
-	});
 
-	var auras = parseInt(map['auras']);
+		$.each(map, function(n, v) {
+			$("[name='" + n + "'][type=text]").val(v.toString().replace(/\+/g, " "));
+			$("[name='" + n + "'][type=number]").val(parseInt(v));
+			if ($("[name='" + n + "'][type=checkbox]").length) {
+				$("[name='" + n + "'][type=checkbox]").prop("checked", true);
+			}
+		});
 
-	if(auras > 1) {
-		for (var i = 0; i < auras - 1; i++) {
-			$("#add").click();
+		loaded_from_url = true;
+		recalculate();
+	}
+	// new style loading auras
+	else if(hash.length > 0) {
+		data = hash.split("/");
+		var bin = pad(alpha.decode(data[0]).toString(2), 65);
+		var pos = 0;
+
+		for(i=settings_encode.length - 1; i >= 0;i--) {
+
+			pos += settings_encode[i][1];
+			var bindata = parseInt(bin.substr((pos * -1 ? pos * -1 : 0), settings_encode[i][1]).toString(), 2);
+
+			if ($("input[name=" + settings_encode[i][0] + "]").is("[type=checkbox]")) {
+				$("input[name=" + settings_encode[i][0] + "]").prop('checked', (bindata ? true : false));
+			} else {
+				$("input[name=" + settings_encode[i][0] + "]").val(bindata);
+			}
 		}
+
+		auras = data.length - 1;
+
+		for(a=1;a<= auras; a++) {
+			if(a != 1) {
+				$("#add").click();
+			}
+
+			var bin = pad(alpha.decode(data[a]).toString(2), 65);
+			var pos = 0;
+
+			for(i=auras_encode.length - 1; i >= 0;i--) {
+				pos += auras_encode[i][1];
+				var bindata = parseInt(bin.substr((pos * -1 ? pos * -1 : 0), auras_encode[i][1]).toString(), 2);
+
+				if ($("." + auras_encode[i][0] + " input", "#aura_" + a).is("[type=checkbox]")) {
+					$("." + auras_encode[i][0] + " input", "#aura_" + a).prop('checked', (bindata ? true : false));
+				} else {
+					$("." + auras_encode[i][0] + " input", "#aura_" + a).val(bindata);
+				}
+			}
+		}
+
+		loaded_from_url = true;
+		recalculate();
 	}
 	else {
-		auras = 1;
+		recalculate(true);
 	}
 
-	$.each(map, function (n, v) {
-		$("[name='" + n + "'][type=text]").val(v.toString().replace(/\+/g, " "));
-		$("[name='" + n + "'][type=number]").val(parseInt(v));
-		if($("[name='" + n + "'][type=checkbox]").length) {
-			$("[name='" + n + "'][type=checkbox]").prop("checked", true);
-		}
-	});
 
-	recalculate((auras <= 1));
+	if(loaded_from_url && $(".edited").length) {
+		$("#viewing").show();
+		$(".aura-grp label").not(".edited").parent().hide();
+		$("button").not("#edit").hide();
+		$("input[type=checkbox]").hide();
+		$("input[type=number]").prop("disabled", true);
+
+		$("#edit").click(function(){
+			$("#viewing").hide();
+			$(".aura-grp label").not(".edited").parent().show();
+			$("button").not("#edit, #aura_1 .del").show();
+			$("input[type=checkbox]").show();
+			$("input[type=number]").prop("disabled", false);
+			recalculate();
+		});
+	}
+
 });

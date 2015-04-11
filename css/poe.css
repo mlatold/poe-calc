@@ -92,9 +92,17 @@ h3 { margin-top: 10px; }
 }
 
 #footer {
-  padding-top: 20px;
   text-align: center;
   width: 100%;
+  font-size: 16px;
+  line-height: 30px;
+}
+#footer a i {
+  font-size: 18px;
+}
+
+#footer a:hover i {
+  color: #56DCF2;
 }
 
 .row {
@@ -167,6 +175,7 @@ label input[type=number].fr {
 }
 #final {
   border: 0;
+  margin-bottom: 15px;
 }
 #aura_1 .del {
   display: none;

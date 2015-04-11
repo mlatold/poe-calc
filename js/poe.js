@@ -102,7 +102,7 @@ $.fn.restricted_val = function() {
 /* This recalculates everything on the page all in one go */
 var recalculate = function(nohash) {
 	if($("#viewing").is(":visible")) {
-		return;
+		return false;
 	}
 	// index 0 is mana, 1 is life
 	var flat = [0, 0];
@@ -450,14 +450,14 @@ $().ready(function() {
 		$("#viewing").show();
 		$(".aura-grp label").not(".edited").parent().hide();
 		$("button").not("#edit").hide();
-		$("input[type=checkbox]").hide();
+		$("input[type=checkbox]").hide().prop("readonly", true).prop("disabled", true);
 		$("input[type=number]").prop("disabled", true);
 
 		$("#edit").click(function(){
 			$("#viewing").hide();
 			$(".aura-grp label").not(".edited").parent().show();
 			$("button").not("#edit, #aura_1 .del").show();
-			$("input[type=checkbox]").show();
+			$("input[type=checkbox]").show().prop("readonly", false).prop("disabled", false);
 			$("input[type=number]").prop("disabled", false);
 			recalculate();
 		});

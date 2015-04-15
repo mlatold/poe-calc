@@ -1,7 +1,7 @@
 Path of Exile Aura Calculator
 ========
 
-This is a reserved mana calculator for the PC game Path of Exile (http://www.pathofexile.com). Me and a friend of mine enjoy the game but had difficulty predicting what our reserved mana would be with complicated aura setups (varying gem levels, support gems attached to auras, partial blood magic, etc). I don't have plans for any major feature additions to this calculator other than some quality of life updates and keeping it up to date with the latest balance changes in Path of Exile, I like to keep things simple and believe in doing one thing and doing it well.
+This is a reserved mana calculator for the PC game Path of Exile (http://www.pathofexile.com). Me and a friend of mine enjoy the game but had difficulty predicting what our reserved mana would be with complicated aura setups (varying gem levels, support gems attached to auras, partial blood magic, etc), so I made this calculator. I don't have plans for any major feature additions to this calculator other than some quality of life updates and keeping it up to date with the latest balance changes in Path of Exile, I like to keep things simple and believe in doing one thing and doing it well.
 
 Some of the features:
 

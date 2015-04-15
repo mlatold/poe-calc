@@ -1,3 +1,13 @@
+/*
+	This algorithm to encode urls is a binary to a url friendly base
+
+	The array takes the name of the field then the amount of bits to reserve
+	so that I can encode it to the smallest possible value.
+
+	You should be able to add many more to the end without breaking backwards
+	compatibility.
+*/
+
 var auras_encode = [
 	// add new things up here
 	['gen', 1],
@@ -37,13 +47,8 @@ var settings_encode = [
 	['life', 15]
 ]
 
-function pad(num, amount) {
-	var zeros = new Array(amount + 1).join("0");
-	return (zeros + "" + num).slice(amount * -1);
-}
-
-
 var alpha = {
+	// changing this index will break all previous links, so don't be a jerk
 	index: 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ=_-',
 
 	encode: function(encnum) {
@@ -76,6 +81,10 @@ String.prototype.reverse = function() {
 	return this.split('').reverse().join('');
 };
 
+var pad = function(num, amount) {
+	var zeros = new Array(amount + 1).join("0");
+	return (zeros + "" + num).slice(amount * -1);
+}
 
 /* This restricts fetched input fields to their min/max attributes */
 $.fn.restricted_val = function() {
@@ -125,6 +134,10 @@ var recalculate = function(nohash) {
 		$(".mi2 input").prop("disabled", true);
 	}
 
+	/* At one point this calculator had an advanced settings checkbox, but it mostly
+		hid snap shotting features (they were not typical of majority of builds and
+		added complexity). Snapshotting is no longer in the game but I keep this logic
+		around incase something else needs hiding behind an advanced checkbox */
 	// setting advanced settings back to default
 	/*
 	$(".advanced").hide();
@@ -179,9 +192,6 @@ var recalculate = function(nohash) {
 			blood_magic = true;
 		}
 
-		// Alpha's howl for snapshotting
-		additional_reduced_mana += $(".alh input:checked", this).length ? 8 : 0;
-
 		/* Note: The calculation is a bit of a mess but it's from here:
 			http://www.pathofexile.com/forum/view-thread/567561/page/3
 
@@ -217,9 +227,24 @@ var recalculate = function(nohash) {
 
 	mana = mana ? mana : 1;
 	life = life ? life : 1;
-
+	
 	var life_reserved_numeric = Math.round(life * (perc[1] / 100)) + flat[1];
 	var mana_reserved_numeric = Math.round(mana * (perc[0] / 100)) + flat[0];
+
+	/*
+		This is a very special case: If you're running CI the game will not allow you
+		to run any auras off life. I think GGG made a manual exception to always
+		reserve something, even though they're rounding down all the time.
+
+		I did the same thing to mana for consistancy, although I don't think its
+		possible to have 1 mana
+	*/
+	if(life_reserved_numeric == 0 && life == 1 && perc[1]) {
+		life_reserved_numeric = 1;
+	}
+	if(mana_reserved_numeric == 0 && mana == 1 && perc[0]) {
+		mana_reserved_numeric = 1;
+	}
 
 	var life_reserved_percent = Math.floor((life_reserved_numeric / life) * 100);
 	var mana_reserved_percent = Math.floor((mana_reserved_numeric / mana) * 100);
@@ -250,6 +275,7 @@ var recalculate = function(nohash) {
 		$("#mana_f .total, #mana .total").html("0/0");
 		$("#mana_f .reserved, #mana .reserved").html("0")
 	}
+	
 	// saves current state of form to url
 	if (nohash != true) {
 		var bin = "";
@@ -281,6 +307,7 @@ var recalculate = function(nohash) {
 		});
 		location.replace("#" + hash.join("/"));
 	}
+
 	// highlight edited fields
 	$("label.edited").removeClass("edited");
 	$("input[type=number]").each(function() {

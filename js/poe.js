@@ -127,21 +127,29 @@ var recalculate = function(nohash) {
 		$(".mcs input").prop("checked", false);
 		$(".mcs input").prop("disabled", true);
 	}
+
+	// Reset weapon reservations
+	$(".mid, .mi2, .ic2, .ich").removeClass("disabled");
+	$("input", ".mid, .mi2, .ic2, .ich").prop("disabled", false);
+
 	// Midnight Bargain x2 (if midnight bargain 1 is checked)
-	$(".mi2").removeClass("disabled");
-	$(".mi2 input").prop("disabled", false);
 	if (!$("input[name=mid]:checked").length) {
 		$(".mi2").addClass("disabled");
-		$(".mi2 input").prop("checked", false);
-		$(".mi2 input").prop("disabled", true);
+		$("input", ".mi2").prop("checked", false).prop("disabled", true);
 	}
+	else {
+		$(".ich, .ic2").addClass("disabled");
+		$("input", ".ich, .ic2").prop("checked", false).prop("disabled", true);
+	}
+
 	// Ichimonji x2 (if Ichimonji 1 is checked)
-	$(".ic2").removeClass("disabled");
-	$(".ic2 input").prop("disabled", false);
 	if (!$("input[name=ich]:checked").length) {
 		$(".ic2").addClass("disabled");
-		$(".ic2 input").prop("checked", false);
-		$(".ic2 input").prop("disabled", true);
+		$("input", ".ic2").prop("checked", false).prop("disabled", true);
+	}
+	else {
+		$(".mid, .mi2").addClass("disabled");
+		$("input", ".mid, .mi2").prop("checked", false).prop("disabled", true);
 	}
 
 	/* At one point this calculator had an advanced settings checkbox, but it mostly

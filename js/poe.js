@@ -37,6 +37,8 @@ var auras_encode = [
 
 var settings_encode = [
 	// add new things up here
+	['ic2', 1],
+	['ich', 1],
 	['mi2', 1],
 	['mid', 1],
 	['alp', 1],
@@ -133,6 +135,14 @@ var recalculate = function(nohash) {
 		$(".mi2 input").prop("checked", false);
 		$(".mi2 input").prop("disabled", true);
 	}
+	// Ichimonji x2 (if Ichimonji 1 is checked)
+	$(".ic2").removeClass("disabled");
+	$(".ic2 input").prop("disabled", false);
+	if (!$("input[name=ich]:checked").length) {
+		$(".ic2").addClass("disabled");
+		$(".ic2 input").prop("checked", false);
+		$(".ic2 input").prop("disabled", true);
+	}
 
 	/* At one point this calculator had an advanced settings checkbox, but it mostly
 		hid snap shotting features (they were not typical of majority of builds and
@@ -160,6 +170,10 @@ var recalculate = function(nohash) {
 
 	// Alpha's howl
 	reduced_mana -= $(".alp input:checked").length ? 8 : 0;
+
+	// Ichimonjis
+	reduced_mana -= $(".ich input:checked").length ? 5 : 0;
+	reduced_mana -= $(".ic2 input:checked").length ? 5 : 0;
 
 	// Midnight Bargain
 	perc[1] += $(".mid input:checked").length ? 30 : 0;

@@ -134,12 +134,24 @@ label .reserved, label .reserved-mana, label .multi {
   float: right;
   padding-right: 10px;
 }
+
+div.bm .multi {
+  color: #f44336;
+}
+
 label.disabled {
   color: #555;
+}
+
+div.bm label.disabled .multi {
+  color: #800;
 }
 label.edited {
   background: #2B4463;
   color: #fff;
+}
+div.bm label.edited .multi {
+  color: #ef9a9a;
 }
 label img {
   width: 35px;
@@ -155,19 +167,6 @@ label input[type=number] {
   line-height: 25px;
   padding: 0 2px;
   width: 60px;
-}
-#bitly_text {
-  border: 1px solid #ccc;
-  background: #222;
-  font-size: 16px;
-  color: #fff;
-  padding: 0 2px;
-  width: 150px;
-  height: 30px;
-}
-#bitly {
-  position: relative;
-  top: -2px;
 }
 label input[type=number].fr {
   margin-top: 3px;

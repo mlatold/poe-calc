@@ -10,12 +10,13 @@
 
 var auras_encode = [
 	// add new things up here
+	['victario', 1],
 	['gen', 1],
 	['emp', 1],
 	['prg', 1],
 	['wra', 1],
 	['vit', 1],
-	['tem', 1],
+	['aa', 1],
 	['pol', 1],
 	['poi', 1],
 	['pof', 1],
@@ -29,7 +30,8 @@ var auras_encode = [
 	['dis', 1],
 	['det', 1],
 	['ang', 1],
-	['rmg', 5],
+	['legacy', 1],
+	['enlighten', 4],
 	['bmg', 5],
 	['cla', 5],
 	['mul', 10]
@@ -37,6 +39,7 @@ var auras_encode = [
 
 var settings_encode = [
 	// add new things up here
+	['cef', 1],
 	['ic2', 1],
 	['ich', 1],
 	['mi2', 1],
@@ -110,7 +113,24 @@ $.fn.restricted_val = function() {
 	return val;
 }
 
-/* This recalculates everything on the page all in one go */
+var disable_field = function(field) {
+	$(field)
+		.prop("checked", false).prop("disabled", true)
+		.parents('label').addClass("disabled");
+}
+var enable_field = function(field) {
+	$(field)
+		.prop("disabled", false)
+		.parents('label').removeClass("disabled");
+}
+
+/* 
+	This method does a massive recalculation en-masse whenever its called,
+	which is typically when loading or upon any change.
+
+	It's less expensive then you think. This calculator isn't really that
+	complicated and javascript is fast enough for the job.
+*/
 var recalculate = function(nohash) {
 	if($("#viewing").is(":visible")) {
 		return false;
@@ -118,59 +138,46 @@ var recalculate = function(nohash) {
 	// index 0 is mana, 1 is life
 	var flat = [0, 0];
 	var perc = [0, 0];
+	var hands_used = 0;
 
-	// Blood magic convocation skill only allowed if blood magic is checked
-	$(".mcs").removeClass("disabled");
-	$(".mcs input").prop("disabled", false);
-	if (!$("input[name=bms]:checked").length) {
-		$(".mcs").addClass("disabled");
-		$(".mcs input").prop("checked", false);
-		$(".mcs input").prop("disabled", true);
-	}
+	// Reset item combinations
+	enable_field('[data-melee], [data-shield], [data-helm], [data-wand], [data-body], [data-item]');
 
-	// Reset weapon reservations
-	$(".mid, .mi2, .ic2, .ich").removeClass("disabled");
-	$("input", ".mid, .mi2, .ic2, .ich").prop("disabled", false);
+	$('[data-depends]').each(function(){
+		if($(this).is(":checked")) {
+			enable_field('.' + $(this).data('depends') + ' input');
+		}
+		else {
+			disable_field('.' + $(this).data('depends') + ' input');
+		}
+	});
 
-	// Midnight Bargain x2 (if midnight bargain 1 is checked)
-	if (!$("input[name=mid]:checked").length) {
-		$(".mi2").addClass("disabled");
-		$("input", ".mi2").prop("checked", false).prop("disabled", true);
-	}
-	else {
-		$(".ich, .ic2").addClass("disabled");
-		$("input", ".ich, .ic2").prop("checked", false).prop("disabled", true);
+	if($('[data-melee]:checked').length) {
+		hands_used += $('[data-melee]:checked').length;
+		disable_field('[data-wand]');
 	}
 
-	// Ichimonji x2 (if Ichimonji 1 is checked)
-	if (!$("input[name=ich]:checked").length) {
-		$(".ic2").addClass("disabled");
-		$("input", ".ic2").prop("checked", false).prop("disabled", true);
-	}
-	else {
-		$(".mid, .mi2").addClass("disabled");
-		$("input", ".mid, .mi2").prop("checked", false).prop("disabled", true);
+	if($('[data-shield]:checked').length) {
+		hands_used += $('[data-shield]:checked').length;
+		disable_field('[data-shield]:not(:checked)');
 	}
 
-	/* At one point this calculator had an advanced settings checkbox, but it mostly
-		hid snap shotting features (they were not typical of majority of builds and
-		added complexity). Snapshotting is no longer in the game but I keep this logic
-		around incase something else needs hiding behind an advanced checkbox */
-	// setting advanced settings back to default
-	/*
-	$(".advanced").hide();
-	if($(".adv input:checked").length) {
-		$(".advanced"). show();
-		$(".advanced").css("display", "block");
+	if($('[data-wand]:checked').length) {
+		hands_used += $('[data-wand]:checked').length;
+		disable_field('[data-melee]');
 	}
-	else {
-		$(".emp input").prop("checked", false);
 
-		$(".alh input").prop("checked", false);
-		$(".bma input").prop("checked", false);
-		$(".mul input").val("100");
+	if(hands_used >= 2) {
+		disable_field('[data-wand]:not(:checked), [data-melee]:not(:checked), [data-shield]:not(:checked)');
 	}
-	*/
+
+	if($('[data-helm]:checked').length) {
+		disable_field('[data-helm]:not(:checked)');
+	}
+
+	if($('[data-body]:checked').length) {
+		disable_field('[data-body]:not(:checked)');
+	}
 
 	// Skill tree
 	var reduced_mana = 100 + $(".rms input[type=number]").restricted_val() * -1;
@@ -183,6 +190,9 @@ var recalculate = function(nohash) {
 	reduced_mana -= $(".ich input:checked").length ? 5 : 0;
 	reduced_mana -= $(".ic2 input:checked").length ? 5 : 0;
 
+	// Conqueror's Efficiency
+	reduced_mana -= $(".cef input:checked").length ? 2 : 0;
+
 	// Midnight Bargain
 	perc[1] += $(".mid input:checked").length ? 30 : 0;
 	perc[1] += $(".mi2 input:checked").length ? 30 : 0;
@@ -190,22 +200,28 @@ var recalculate = function(nohash) {
 	/* Aura groups are meant to be as "links" so users can combine different variables applicable only to
 		specific auras, so a lot of math has to be done seperately here */
 	$(".aura-grp").each(function() {
+
+		if($('[data-item]:checked', this).length) {
+			disable_field($('[data-item]:not(:checked)', this));
+		}
+
 		// blood magic gem
-		var bm_gem_multipliers = [2.45, 2.42, 2.39, 2.37, 2.34, 2.32, 2.29, 2.26, 2.24, 2.21, 2.18, 2.16, 2.13, 2.11, 2.08, 2.05, 2.03, 2.00, 1.97, 1.96, 1.93, 1.90, 1.87];
+		var bm_gem_multipliers = [2.45, 2.42, 2.39, 2.37, 2.34, 2.32, 2.29, 2.26, 2.24, 2.21, 2.18, 2.16, 2.13, 2.11, 2.08, 2.05, 2.03, 2.00, 1.97, 1.96, 1.93, 1.90, 1.87, 1.84, 1.81, 1.78, 1.75, 1.72, 1.69, 1.66];
 		var bm_gem_lvl = $(".bmg input[type=number]", this).restricted_val();
 		var bm_gem_multi = bm_gem_lvl == 0 ? 100 : Math.ceil(bm_gem_multipliers[bm_gem_lvl - 1] * 100);
 		$(".bmg .multi", this).html("x" + bm_gem_multi.toString() + "%");
 
 		// is blood magic on?
-		var blood_magic = ($(".bms input:checked").length || $(".bma input:checked", this).length || bm_gem_lvl) ? true : false;
+		var blood_magic = ($(".swo input:checked", this).length || $(".bms input:checked").length || $(".bma input:checked", this).length || bm_gem_lvl) ? true : false;
 
 		var other_multi = $(".mul input[type=number]", this).restricted_val();
 		other_multi *= $(".emp input:checked", this).length ? 1.25 : 1;
+		other_multi *= $(".victario input:checked", this).length ? 0.8 : 1;
 
 		// reduced mana gem
-		var rm_gem_lvl = $(".rmg input[type=number]", this).restricted_val();
-		var rm_gem_multi = rm_gem_lvl == 0 ? 100 : 91 - rm_gem_lvl;
-		$(".rmg .multi", this).html("x" + rm_gem_multi.toString() + "%");
+		var rm_gem_lvl = $(".enlighten input[type=number]", this).restricted_val();
+		var rm_gem_multi = [100, 100, 96, 92, 88, 84, 80, 76, 72, 68, 64][rm_gem_lvl];
+		$(".enlighten .multi", this).html("x" + rm_gem_multi.toString() + "%");
 
 		// additional rediced mana (for things like alphas howl or prism guardian) only takes effect for this aura group
 		var additional_reduced_mana = 0;
@@ -228,7 +244,8 @@ var recalculate = function(nohash) {
 
 		// clarity gem
 		var clarity_lvl = $(".cla input[type=number]", this).restricted_val();
-		var clarity_mana = clarity_lvl == 0 ? 0 : calculate_aura(40 + (clarity_lvl * 24));
+		var clarity_mana_cost = [0, 34, 48, 61, 76, 89, 102, 115, 129, 141, 154, 166, 178, 190, 203, 214, 227, 239, 251, 265, 279, 293, 303, 313, 323, 333, 343, 353, 363, 373, 383]
+		var clarity_mana = clarity_lvl == 0 ? 0 : calculate_aura(clarity_mana_cost[clarity_lvl]);  //(20 + (clarity_lvl * 14));
 		flat[+blood_magic] += clarity_mana;
 		$(".cla .reserved-mana", this).html(clarity_mana.toString());
 
@@ -243,7 +260,7 @@ var recalculate = function(nohash) {
 		});
 	});
 
-	/* Update globes */
+	// Update globes
 	var life = $("input[name=life]").restricted_val();
 	var mana = $("input[name=mana]").restricted_val();
 
@@ -358,8 +375,11 @@ var activate_aura_group = function(grp) {
 	$("input", grp).keyup(recalculate);
 	$(".del", grp).click(function() {
 		var section = $(this).parents("section");
-		if (confirm("Are you sure you want to delete: \"" + $("h3 input[type=text]", section).val() + "\"?")) {
+		if (confirm("Are you sure you want to delete: \"" + $("h3 span", section).html() + "\"?")) {
 			section.remove();
+			$("section.aura-grp h3 span").each(function(x) {
+				$(this).html("Aura Group " + (x + 1));
+			});
 			$("input[name=auras]").val($(".aura-grp").length);
 			recalculate();
 		}
@@ -372,7 +392,6 @@ var activate_aura_group = function(grp) {
 
 /* Initialize */
 var aura_group = "";
-var access_token = '887ecbfea2063ee8f9623a50ba6d08ffc0104a50';
 
 $().ready(function() {
 	var hash = window.location.hash.substr(1).replace(/&amp;/g, "&");
@@ -484,6 +503,19 @@ $().ready(function() {
 				} else {
 					$("." + auras_encode[i][0] + " input", "#aura_" + a).val(bindata);
 				}
+			}
+
+
+			/*
+			Reduced mana gem was removed at 2.0 as an aura affecting gem, so for legacy urls I take the last bit
+			(which is set for anything lvl 16 and over) and I simply zero out the reduction multiplier, because
+			otherwise legacy urls will have high enlighten values because everybody was setting reduced mana to
+			high levels. Eventually I will replace this bit down the road with another item or gem, but I figured
+			it's a decent hack to make the old urls somewhat reasonable instead of them all being lvl 10 enlighten
+			*/
+			if($(".legacy", "#aura_" + a).val() != 0) {
+				$(".enlighten input", "#aura_" + a).val(0);
+				$(".legacy", "#aura_" + a).val(0)
 			}
 		}
 
